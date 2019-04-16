@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Club 96: @ViewBag.Title</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header class="container">
+        <nav class="navbar navbar-dark bg-danger navbar-expand-md">
+            <h1 class="navbar-brand"><i class="fa fa-book"></i> Welcome to BookClub96</h1>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#theNavbarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="theNavbarMenu" class="navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="App" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="App" asp-action="About">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="App" asp-action="Contact">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <section class="container">
+        <h2 class ="text-center">@ViewBag.Title</h2>
+        @RenderBody()
+    </section>
+    <footer class="text-center">
+        <div>Copyright 2019 BookClub96 LLC</div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/index.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>
+

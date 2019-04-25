@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "Club96ConnectionString": "server=(localdb)\\ProjectsV13;Database=Club96;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true;"
+  } 
+}

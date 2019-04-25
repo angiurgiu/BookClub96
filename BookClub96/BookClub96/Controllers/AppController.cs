@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using BookClub96.Data;
 using BookClub96.Models;
 using BookClub96.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +10,17 @@ namespace BookClub96.Controllers
     public class AppController : Controller
     {
         private readonly IMailService _mailService;
+        private BookClubContext _context;
+        private IBookClubRepository _repository;
 
-        public AppController(IMailService mailService)
+        public AppController(
+            IMailService mailService, 
+            BookClubContext context,
+            IBookClubRepository repo)
         {
+            _context = context;
             _mailService = mailService;
+            _repository = repo;
         }
 
         public IActionResult Index()
@@ -50,6 +59,13 @@ namespace BookClub96.Controllers
             ViewBag.Title = "About";
 
             return View();
+        }
+
+        public IActionResult ViewBooks()
+        {
+            var results = _repository.GetAllBooks();
+
+            return View(results.ToList());
         }
     }
 }

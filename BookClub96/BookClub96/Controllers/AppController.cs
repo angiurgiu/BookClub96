@@ -3,6 +3,7 @@ using System.Linq;
 using BookClub96.Data;
 using BookClub96.Models;
 using BookClub96.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookClub96.Controllers
@@ -61,7 +62,8 @@ namespace BookClub96.Controllers
             return View();
         }
 
-        public IActionResult ViewBooks()
+        [Authorize]
+        public IActionResult Books()
         {
             var results = _repository.GetAllBooks();
 

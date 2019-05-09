@@ -1,10 +1,12 @@
-﻿using BookClub96.Data;
+﻿using AutoMapper;
+using BookClub96.Data;
 using BookClub96.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace BookClub96
 {
@@ -26,12 +28,16 @@ namespace BookClub96
                 cfg.UseSqlServer(_config.GetConnectionString("Club96ConnectionString"));
             });
 
+            services.AddAutoMapper();
+
             services.AddTransient<IMailService, MockMailService>();
             services.AddTransient<BookSeeder>();
 
             services.AddScoped<IBookClubRepository, BookClubRepository>();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

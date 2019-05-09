@@ -9,11 +9,14 @@ namespace BookClub96.Data.Entities
         Closed,
         ByApplication
     }
+
     public class Group
     {
         public int Id { get; set; }
-        public DateTime MeetingTime { get; set; }
+        public DateTime CreationTime { get; set; }
         public ICollection<Meeting> Meetings { get; set; }
         public GroupType Type { get; set; }
+        public string GroupName { get; set; }
+        public ICollection<GroupMember> Members { get; set; }
     }
 }

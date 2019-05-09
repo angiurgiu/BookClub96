@@ -30,19 +30,49 @@ namespace BookClub96.Data
 
                 var books = JsonConvert.DeserializeObject<IEnumerable<Book>>(json).ToList();
                 _ctx.Books.AddRange(books);
+                _ctx.Members.AddRange();
 
                 var group = _ctx.Groups.FirstOrDefault(g => g.Id == 1);
                 if (group != null)
                 {
+                    var member = new Member()
+                    {
+                        Email = "angiurgiu@gmail.com",
+                        FirstName = "Andrei",
+                        LastName = "Giurgiu",
+                        Description = "Thirsty Nerd",
+                        GoodreadsId = "18601222"
+                    };
+                    var groupMember = new GroupMember()
+                    {
+                        Member = member,
+                        Group = group,
+                        IsAdmin = true,
+                        GroupId = group.Id,
+                        MemberId = member.Id
+                    };
+                    member.GroupMembers = new List<GroupMember>() { groupMember };
+                    group.Members = new List<GroupMember>() { groupMember };
+
+                    var book = books.FirstOrDefault();
                     var meeting = new Meeting()
                     {
-                        Book = books.FirstOrDefault(),
-                        Attendees = "Andrei Vince Jason",
-                        Host = "Andrei",
+                        Book = book,
                         Address = "1050 Harwood",
-                        Time = DateTime.UtcNow.AddDays(14)
+                        Time = DateTime.UtcNow.AddDays(14),
+                        GroupId = group.Id,
                     };
-                    group.Meetings = new List<Meeting> {meeting};
+                    var meetingMember = new MeetingMember()
+                    {
+                        IsHost = true,
+                        Meeting = meeting,
+                        MeetingId = meeting.Id,
+                        Member = member,
+                        MemberId = member.Id
+                    };
+                    member.MeetingMembers = new List<MeetingMember>() { meetingMember };
+                    meeting.Attendees = new List<MeetingMember>() { meetingMember };
+                    group.Meetings = new List<Meeting> { meeting };
                 }
 
                 _ctx.SaveChanges();

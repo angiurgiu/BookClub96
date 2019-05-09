@@ -1,4 +1,6 @@
-﻿namespace BookClub96.Data.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BookClub96.Data.Entities
 {
   public class Book
   {

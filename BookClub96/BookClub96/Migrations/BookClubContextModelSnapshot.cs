@@ -63,7 +63,7 @@ namespace BookClub96.Migrations
                     b.ToTable("Groups");
 
                     b.HasData(
-                        new { Id = 1, CreationTime = new DateTime(2019, 5, 8, 23, 13, 38, 237, DateTimeKind.Utc), GroupName = "Thirsty Nerds", Type = 0 }
+                        new { Id = 1, CreationTime = new DateTime(2019, 5, 10, 23, 20, 20, 787, DateTimeKind.Utc), GroupName = "Thirsty Nerds", Type = 0 }
                     );
                 });
 

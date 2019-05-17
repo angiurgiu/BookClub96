@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BookClub96.Data;
+using BookClub96.Data.Entities;
 using BookClub96.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,11 @@ namespace BookClub96
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<Member, IdentityRole>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<BookClubContext>();
+
             services.AddDbContext<BookClubContext>(cfg =>
             {
                 cfg.UseSqlServer(_config.GetConnectionString("Club96ConnectionString"));
@@ -54,6 +61,8 @@ namespace BookClub96
 
             app.UseStaticFiles();
             app.UseNodeModules(env);
+
+            app.UseAuthentication();
 
             app.UseMvc(cfg =>
             {

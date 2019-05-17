@@ -24,7 +24,7 @@ namespace BookClub96
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<BookSeeder>();
-                seeder.Seed();
+                seeder.SeedAsync().Wait();
             }
         }
 

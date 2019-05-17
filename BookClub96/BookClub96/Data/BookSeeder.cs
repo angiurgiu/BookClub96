@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookClub96.Data.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
 namespace BookClub96.Data
@@ -13,16 +14,38 @@ namespace BookClub96.Data
     {
         private readonly BookClubContext _ctx;
         private readonly IHostingEnvironment _hosting;
+        private UserManager<Member> _userManager;
 
-        public BookSeeder(BookClubContext ctx, IHostingEnvironment hosting)
+        public BookSeeder(BookClubContext ctx, IHostingEnvironment hosting, UserManager<Member> userManager)
         {
             _ctx = ctx;
             _hosting = hosting;
+            _userManager = userManager;
         }
 
-        public void Seed()
+        public async Task SeedAsync()
         {
             _ctx.Database.EnsureCreated();
+            var user = await _userManager.FindByEmailAsync("angiurgiu@gmail.com");
+            if (user == null)
+            {
+                user = new Member()
+                {
+                    UserName = "andreito",
+                    Email = "angiurgiu@gmail.com",
+                    FirstName = "Andrei",
+                    LastName = "Giurgiu",
+                    Description = "Thirsty Nerd",
+                    GoodreadsId = "18601222"
+                };
+
+                var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException($"Could not create new user. [result={result.Errors.FirstOrDefault()}]");
+                }
+            }
+
             if (!_ctx.Books.Any())
             {
                 var filePath = Path.Combine(_hosting.ContentRootPath, "Data/library.json");
@@ -35,23 +58,15 @@ namespace BookClub96.Data
                 var group = _ctx.Groups.FirstOrDefault(g => g.Id == 1);
                 if (group != null)
                 {
-                    var member = new Member()
-                    {
-                        Email = "angiurgiu@gmail.com",
-                        FirstName = "Andrei",
-                        LastName = "Giurgiu",
-                        Description = "Thirsty Nerd",
-                        GoodreadsId = "18601222"
-                    };
                     var groupMember = new GroupMember()
                     {
-                        Member = member,
+                        Member = user,
                         Group = group,
                         IsAdmin = true,
                         GroupId = group.Id,
-                        MemberId = member.Id
+                        MemberId = user.Id
                     };
-                    member.GroupMembers = new List<GroupMember>() { groupMember };
+                    user.GroupMembers = new List<GroupMember>() { groupMember };
                     group.Members = new List<GroupMember>() { groupMember };
 
                     var book = books.FirstOrDefault();
@@ -67,10 +82,10 @@ namespace BookClub96.Data
                         IsHost = true,
                         Meeting = meeting,
                         MeetingId = meeting.Id,
-                        Member = member,
-                        MemberId = member.Id
+                        Member = user,
+                        MemberId = user.Id
                     };
-                    member.MeetingMembers = new List<MeetingMember>() { meetingMember };
+                    user.MeetingMembers = new List<MeetingMember>() { meetingMember };
                     meeting.Attendees = new List<MeetingMember>() { meetingMember };
                     group.Meetings = new List<Meeting> { meeting };
                 }

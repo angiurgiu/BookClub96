@@ -1,28 +1,30 @@
 ﻿
 @using BookClub96.Data.Entities
 @model IEnumerable<Book>
-
+@{
+    ViewBag.Title = "Books";
+}
 <h1>Books</h1>
 <h2>Count: @Model.Count()</h2>
 <div class="row">
-@foreach (var b in Model)
-{
-    <div class="col-md-4">
-        <div class="border bg-light rounded p-2">
-            <div class="text-center">
-                <img src="@b.CoverLink" class="img-fluid" alt="@b.Title" />
-            </div>
-            <h4>@b.Title</h4>
-            <ul>
-                <li><strong>Author</strong>: @b.Author</li>
-                <li><strong>Genre</strong>: @b.Genre</li>
-                <li><strong>Synopsis</strong>: @b.Description</li>
-            </ul>
-            <div class="text-center">
-                <a href="@b.GoodreadsLink">Take me to Goodreads!</a> <br/>
-                <button id="rateButton" class="btn btn-success align-self-center">Rate</button>
+    @foreach (var b in Model)
+    {
+        <div class="col-md-4">
+            <div class="border bg-light rounded p-2">
+                <div class="text-center">
+                    <img src="@b.CoverLink" class="img-fluid" alt="@b.Title" />
+                </div>
+                <h4>@b.Title</h4>
+                <ul>
+                    <li><strong>Author</strong>: @b.Author</li>
+                    <li><strong>Genre</strong>: @b.Genre</li>
+                    <li><strong>Synopsis</strong>: @b.Description</li>
+                </ul>
+                <div class="text-center">
+                    <a href="@b.GoodreadsLink">Take me to Goodreads!</a> <br />
+                    <button id="rateButton" class="btn btn-success align-self-center">Rate</button>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
 </div>

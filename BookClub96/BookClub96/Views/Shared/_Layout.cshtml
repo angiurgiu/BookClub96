@@ -14,7 +14,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div id="theNavbarMenu" class="navbar-collapse collapse">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="App" asp-action="Index">Home</a>
                     </li>
@@ -28,14 +28,35 @@
                         <a class="nav-link" asp-controller="App" asp-action="Books">Books</a>
                     </li>
                 </ul>
+                
+                <ul class="navbar-nav ml-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true">Login</a>
+                            <div class="dropdown-menu bg-danger" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Login">Log in</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
     </header>
     <section class="container">
-        <h2 class ="text-center">@ViewBag.Title</h2>
+        <div class="page-header navbar-dark bg-light">
+            <h2 class="text-left font-weight-lighter">@ViewBag.Title</h2>
+        </div>
         @RenderBody()
     </section>
-    <footer class="text-center">
+    <footer class="text-center blockquote-footer fixed-bottom">
         <div>Copyright 2019 BookClub96 LLC</div>
     </footer>
 

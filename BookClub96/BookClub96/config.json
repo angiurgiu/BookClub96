@@ -2,10 +2,15 @@
   "ConnectionStrings": {
     "Club96ConnectionString": "server=(localdb)\\ProjectsV13;Database=Club96;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true;"
   },
-  "Logging" : {
+  "Logging": {
     "LogLevel": {
       "Default": "Information",
       "Microsoft": "Warning"
     }
+  },
+  "Tokens": {
+    "Key": "sfhlw3hiu5$%#$E%T#$Wreiyudi7q23gdwj3wr#$%d",
+    "Issuer": "localhost",
+    "Audience": "users" 
   } 
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using BookClub96.Data;
 using BookClub96.Data.Entities;
 using BookClub96.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

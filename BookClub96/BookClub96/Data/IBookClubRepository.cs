@@ -8,8 +8,9 @@ namespace BookClub96.Data
         IEnumerable<Book> GetAllBooks();
         IEnumerable<Group> GetAllGroups();
         void AddEntity(object entity);
-        Group GetGroupById(int id);
+        Group GetGroupById(int id, string user);
         IEnumerable<Book> GetAllBooksByGenre(string genre);
+        IEnumerable<Group> GetAllGroupsOfUser(string user, bool includeMeetings);
         bool SaveAll();
     }
 }

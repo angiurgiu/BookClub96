@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using AutoMapper;
 using BookClub96.Data;
 using BookClub96.Data.Entities;
@@ -49,7 +50,7 @@ namespace BookClub96
                 cfg.UseSqlServer(_config.GetConnectionString("Club96ConnectionString"));
             });
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddTransient<IMailService, MockMailService>();
             services.AddTransient<BookSeeder>();

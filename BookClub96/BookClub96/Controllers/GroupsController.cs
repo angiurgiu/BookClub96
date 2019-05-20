@@ -33,11 +33,14 @@ namespace BookClub96.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(bool includeMeetings = true)
         {
             try
             {
-                return Ok(_mapper.Map<IEnumerable<Group>, IEnumerable<GroupViewModel>>(_repository.GetAllGroups()));
+                var user = User.Identity.Name;
+                var results = _repository.GetAllGroupsOfUser(user, includeMeetings);
+
+                return Ok(_mapper.Map<IEnumerable<Group>, IEnumerable<GroupViewModel>>(results));
             }
             catch (Exception ex)
             {
@@ -51,7 +54,8 @@ namespace BookClub96.Controllers
         {
             try
             {
-                var group = _repository.GetGroupById(id);
+                var user = User.Identity.Name;
+                var group = _repository.GetGroupById(id, user);
 
                 if (group != null)
                 {

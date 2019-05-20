@@ -4,6 +4,7 @@ using AutoMapper;
 using BookClub96.Data;
 using BookClub96.Data.Entities;
 using BookClub96.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace BookClub96.Controllers
 {
     [Route("/api/groups/{groupid}/meetings")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MeetingsController : Controller
     {
         private readonly IBookClubRepository _repository;
@@ -30,7 +32,8 @@ namespace BookClub96.Controllers
         [HttpGet]
         public IActionResult Get(int groupId)
         {
-            var group = _repository.GetGroupById(groupId);
+            var user = User.Identity.Name;
+            var group = _repository.GetGroupById(groupId, user);
             if (group != null)
             {
                 return Ok(_mapper.Map<IEnumerable<Meeting>, IEnumerable<MeetingViewModel>>(group.Meetings));
@@ -42,7 +45,8 @@ namespace BookClub96.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int groupId, int id)
         {
-            var group = _repository.GetGroupById(groupId);
+            var user = User.Identity.Name;
+            var group = _repository.GetGroupById(groupId, user);
             var meeting = @group?.Meetings.FirstOrDefault(m => m.Id.Equals(id));
 
             if (meeting != null)

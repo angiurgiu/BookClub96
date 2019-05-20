@@ -49,13 +49,13 @@ namespace BookClub96.Data
             _ctx.Add(entity);
         }
 
-        public Group GetGroupById(int id)
+        public Group GetGroupById(int id, string user)
         {
             return _ctx.Groups
                 .Include(g => g.Members).ThenInclude(m => m.Member)
                 .Include(g => g.Meetings).ThenInclude(m => m.Book)
                 .Include(g => g.Meetings).ThenInclude(m => m.Attendees)
-                .FirstOrDefault(o => o.Id == id);
+                .FirstOrDefault(g => g.Id == id && g.Members.Any(gm => gm.Member.UserName.Equals(user)));
         }
 
         public IEnumerable<Book> GetAllBooksByGenre(string genre)
@@ -68,6 +68,28 @@ namespace BookClub96.Data
         public bool SaveAll()
         {
             return _ctx.SaveChanges() > 0;
+        }
+
+        public IEnumerable<Group> GetAllGroupsOfUser(string user, bool includeMeetings = true)
+        {
+            if (includeMeetings)
+            {
+                return _ctx.Groups
+                    .Where(g => g.Members.Any(m => m.Member.UserName.Equals(user)))
+                    .Include(g => g.Members)
+                    .ThenInclude(gm => gm.Member)
+                    .Include(g => g.Meetings)
+                    .ThenInclude(m => m.Book)
+                    .ToList();
+            }
+            else
+            {
+                return _ctx.Groups
+                    .Where(g => g.Members.Any(m => m.Member.UserName.Equals(user)))
+                    .Include(g => g.Members)
+                    .ThenInclude(gm => gm.Member)
+                    .ToList();
+            }
         }
     }
 }

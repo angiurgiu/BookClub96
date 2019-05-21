@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BookClub96.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,6 +16,14 @@ namespace BookClub96.Data
         {
             _ctx = ctx;
             _logger = logger;
+        }
+
+        public Member GetUser(string username)
+        {
+            return _ctx.Members
+                .Include(m => m.Attendances)
+                .Include(m => m.Memberships)
+                .FirstOrDefault(m => m.UserName.Equals(username));
         }
 
         public IEnumerable<Book> GetAllBooks()

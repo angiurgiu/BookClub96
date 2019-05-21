@@ -5,6 +5,7 @@ namespace BookClub96.Data
 {
     public interface IBookClubRepository
     {
+        Member GetUser(string username);
         IEnumerable<Book> GetAllBooks();
         IEnumerable<Group> GetAllGroups();
         void AddEntity(object entity);

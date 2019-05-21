@@ -14,7 +14,7 @@ namespace BookClub96.Models
         public string Photo { get; set; }
         public string GoodreadsId { get; set; }
 
-        public ICollection<GroupMemberViewModel> GroupMembers { get; set; }
-        public ICollection<MeetingMemberViewModel> MeetingMembers { get; set; }
+        public ICollection<GroupMemberViewModel> Memberships { get; set; }
+        public ICollection<MeetingMemberViewModel> Attendances { get; set; }
     }
 }

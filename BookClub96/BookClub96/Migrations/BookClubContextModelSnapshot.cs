@@ -63,7 +63,7 @@ namespace BookClub96.Migrations
                     b.ToTable("Groups");
 
                     b.HasData(
-                        new { Id = 1, CreationTime = new DateTime(2019, 5, 10, 23, 20, 20, 787, DateTimeKind.Utc), GroupName = "Thirsty Nerds", Type = 0 }
+                        new { Id = 1, CreationTime = new DateTime(2019, 5, 21, 1, 34, 3, 380, DateTimeKind.Utc), GroupName = "Thirsty Nerds", Type = 0 }
                     );
                 });
 
@@ -301,7 +301,7 @@ namespace BookClub96.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BookClub96.Data.Entities.Member", "Member")
-                        .WithMany("GroupMembers")
+                        .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -326,7 +326,7 @@ namespace BookClub96.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BookClub96.Data.Entities.Member", "Member")
-                        .WithMany("MeetingMembers")
+                        .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

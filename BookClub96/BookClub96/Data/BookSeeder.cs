@@ -38,16 +38,17 @@ namespace BookClub96.Data
                     Description = "Thirsty Nerd",
                     GoodreadsId = "18601222"
                 };
-
+                
                 var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException($"Could not create new user. [result={result.Errors.FirstOrDefault()}]");
                 }
-            }
+             }
 
             if (!_ctx.Books.Any())
             {
+                user = _ctx.Members.FirstOrDefault();
                 var filePath = Path.Combine(_hosting.ContentRootPath, "Data/library.json");
                 var json = File.ReadAllText(filePath);
 
@@ -66,7 +67,6 @@ namespace BookClub96.Data
                         GroupId = group.Id,
                         MemberId = user.Id
                     };
-                    user.GroupMembers = new List<GroupMember>() { groupMember };
                     group.Members = new List<GroupMember>() { groupMember };
 
                     var book = books.FirstOrDefault();
@@ -85,9 +85,10 @@ namespace BookClub96.Data
                         Member = user,
                         MemberId = user.Id
                     };
-                    user.MeetingMembers = new List<MeetingMember>() { meetingMember };
                     meeting.Attendees = new List<MeetingMember>() { meetingMember };
                     group.Meetings = new List<Meeting> { meeting };
+                    user.Memberships = new List<GroupMember>() { groupMember };
+                    user.Attendances = new List<MeetingMember>() { meetingMember };
                 }
 
                 _ctx.SaveChanges();

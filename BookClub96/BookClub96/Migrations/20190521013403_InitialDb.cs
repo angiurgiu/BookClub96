@@ -275,7 +275,7 @@ namespace BookClub96.Migrations
             migrationBuilder.InsertData(
                 table: "Groups",
                 columns: new[] { "Id", "CreationTime", "GroupName", "Type" },
-                values: new object[] { 1, new DateTime(2019, 5, 10, 23, 20, 20, 787, DateTimeKind.Utc), "Thirsty Nerds", 0 });
+                values: new object[] { 1, new DateTime(2019, 5, 21, 1, 34, 3, 380, DateTimeKind.Utc), "Thirsty Nerds", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -10,7 +10,7 @@ namespace BookClub96.Data.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Description { get; set; }
-        public string Photo { get; set; }
+        public byte[] Photo { get; set; }
         public string GoodreadsId { get; set; }
 
         public ICollection<GroupMember> Memberships { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -43,13 +44,76 @@ namespace BookClub96.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Register()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _signInManager.SignOutAsync();
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!model.Password.Equals(model.ConfirmPassword))
+                {
+                    ModelState.AddModelError("", "Passwords do not match.");
+                }
+                else if (_userManager.FindByEmailAsync(model.Email).Result != null)
+                {
+                    ModelState.AddModelError("", "Email address is already in use.");
+                }
+                else if (_userManager.FindByNameAsync(model.UserName).Result != null)
+                {
+                    ModelState.AddModelError("", "Username is already in use.");
+                }
+                else
+                {
+                    var user = new Member()
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Description = model.Description,
+                        GoodreadsId = model.GoodreadsId,
+                        Photo = model.Photo,
+                        Attendances = new List<MeetingMember>(),
+                        Memberships = new List<GroupMember>(),
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // ToDo: Send confirmation email
+
+                        return RedirectToAction("RegisterConfirmation", "Account", model);
+                    }
+                }
+            }
+
+            ModelState.AddModelError("", "Failed to register");
+
+            return View();
+        }
+
+        public IActionResult RegisterConfirmation(RegisterViewModel model)
+        {
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result =
-                    await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
@@ -81,7 +145,7 @@ namespace BookClub96.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
+                var user = await _userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);

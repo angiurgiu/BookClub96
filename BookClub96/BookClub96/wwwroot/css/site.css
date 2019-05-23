@@ -78,3 +78,7 @@ menu li {
     menu li:last-of-type::after {
         content: ""
     } */
+
+body {
+    height: 100%
+}

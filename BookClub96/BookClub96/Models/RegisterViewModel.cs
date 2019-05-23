@@ -1,19 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookClub96.Models
 {
-    public class MemberViewModel
+    public class RegisterViewModel
     {
-        public string MemberId { get; set; }
+        [Required]
         public string UserName { get; set; }
+        [Required]
         public string Email { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
+        public string Password { get; set; }
+        [Required]
+        public string ConfirmPassword { get; set; }
+
         public string LastName { get; set; }
         public string Description { get; set; }
-        public byte[] Photo { get; set; }
         public string GoodreadsId { get; set; }
-
-        public ICollection<GroupMemberViewModel> Memberships { get; set; }
-        public ICollection<MeetingMemberViewModel> Attendances { get; set; }
+        public byte[] Photo { get; set; }
     }
 }
+

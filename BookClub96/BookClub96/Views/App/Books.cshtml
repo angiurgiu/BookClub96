@@ -4,27 +4,12 @@
 @{
     ViewBag.Title = "Books";
 }
+@section Scripts {
+    <script src="~/clientapp/dist/runtime-es2015.js"></script>
+    <script src="~/clientapp/dist/polyfills-es2015.js"></script>
+    <script src="~/clientapp/dist/styles-es2015.js"></script>
+    <script src="~/clientapp/dist/vendor-es2015.js"></script>
+    <script src="~/clientapp/dist/main-es2015.js"></script>
+}
 <h1>Books</h1>
-<h2>Count: @Model.Count()</h2>
-<div class="row">
-    @foreach (var b in Model)
-    {
-        <div class="col-md-4">
-            <div class="border bg-light rounded p-2">
-                <div class="text-center">
-                    <img src="@b.CoverLink" class="img-fluid" alt="@b.Title" />
-                </div>
-                <h4>@b.Title</h4>
-                <ul>
-                    <li><strong>Author</strong>: @b.Author</li>
-                    <li><strong>Genre</strong>: @b.Genre</li>
-                    <li><strong>Synopsis</strong>: @b.Description</li>
-                </ul>
-                <div class="text-center">
-                    <a href="@b.GoodreadsLink">Take me to Goodreads!</a> <br />
-                    <button id="rateButton" class="btn btn-success align-self-center">Rate</button>
-                </div>
-            </div>
-        </div>
-    }
-</div>
+<the-books></the-books>

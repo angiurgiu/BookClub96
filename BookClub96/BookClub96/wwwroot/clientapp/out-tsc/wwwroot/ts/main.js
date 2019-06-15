@@ -1,3 +1,3 @@
-let member = new ClubMember("Andrei Giurgiu");
+var member = new ClubMember("Andrei Giurgiu");
 member.showName();
 //# sourceMappingURL=main.js.map

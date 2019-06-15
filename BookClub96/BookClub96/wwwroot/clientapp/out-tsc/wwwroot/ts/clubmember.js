@@ -1,9 +1,10 @@
-class ClubMember {
-    constructor(name) {
+var ClubMember = /** @class */ (function () {
+    function ClubMember(name) {
         this.name = name;
     }
-    showName() {
+    ClubMember.prototype.showName = function () {
         alert(this.name);
-    }
-}
+    };
+    return ClubMember;
+}());
 //# sourceMappingURL=clubmember.js.map

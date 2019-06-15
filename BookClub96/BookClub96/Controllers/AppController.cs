@@ -65,9 +65,7 @@ namespace BookClub96.Controllers
         [Authorize]
         public IActionResult Books()
         {
-            var results = _repository.GetAllBooks();
-
-            return View(results.ToList());
+            return View();
         }
     }
 }

@@ -1,17 +1,24 @@
-﻿export class DataService
+﻿import { HttpClient } from "@angular/common/http"
+import { Injectable } from "@angular/core"
+import { Observable, OperatorFunction } from "rxjs"
+import { map } from "rxjs/operators"
+import { Book } from "./book"
+
+@Injectable()
+export class DataService
 {
-    public books = [
-        {
-            title: "First Book",
-            author: "First Author"
-        },
-        {
-            title: "Second Book",
-            author: "Second Author"
-        },
-        {
-            title: "Third Book",
-            author: "Third Author"
-        }
-    ];
+    constructor(private http: HttpClient)
+    {
+    }
+
+    public books: Book[] = [];
+
+    loadProducts(): Observable<boolean> {
+        return this.http.get("/api/books")
+            .pipe((map((data: any[]) =>
+            {
+                this.books = data;
+                return true;
+            })) as OperatorFunction<any,boolean>);
+    }
 }

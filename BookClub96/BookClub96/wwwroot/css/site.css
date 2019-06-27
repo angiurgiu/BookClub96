@@ -1,28 +1,4 @@
-﻿/*body {
-     font-family: 'Segoe UI', 'Tahoma'
-}
-input, textarea {
-    font-size: 18px; 
-    width: 300px;
-}
-input[type=submit] {
-    width: auto; 
-}
-label {
-    font-size: 16px;
-}
-
-#Indian {
-    background-color: azure;
-}
-
-    #Indian button {
-        background-color: aqua;
-        color: black;
-        border-radius: 2px;
-    }
-
-ul.book-props {
+﻿ul.book-props {
     font-size: small;
     padding-left: 0;
 }
@@ -46,39 +22,4 @@ ul.book-props {
     float: left;
     margin: 4px;
     border: 1px solid black;
-}
-
-#loginToggle {
-    cursor: pointer;
-}
-
-.popupForm {
-    padding: 5px;
-    border: 2px black inset;
-    display: inline-block;
-}
-
-    .popupForm label {
-        width: 150px;
-        display: inline-block;
-    }
-
-    .popupForm input[type=checkbox], .popupForm input[type=submit] {
-        width: auto;
-    }
-
-menu li {
-    display: inline;
-}
-
-    menu li::after {
-        content: " |"
-    }
-
-    menu li:last-of-type::after {
-        content: ""
-    } */
-
-body {
-    height: 100%
 }

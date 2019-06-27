@@ -5,8 +5,16 @@ var BookList = /** @class */ (function () {
     function BookList(data) {
         this.data = data;
         this.books = [];
-        this.books = data.books;
     }
+    BookList.prototype.ngOnInit = function () {
+        var _this = this;
+        this.data.loadProducts()
+            .subscribe(function (success) {
+            if (success) {
+                _this.books = _this.data.books;
+            }
+        });
+    };
     BookList = tslib_1.__decorate([
         Component({
             selector: "book-list",

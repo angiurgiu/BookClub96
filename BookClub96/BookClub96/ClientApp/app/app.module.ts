@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from "@angular/common/http"
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookList } from './books/bookList.component'
 import { DataService } from './shared/dataService'
+
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { DataService } from './shared/dataService'
       BookList
   ],
   imports: [
-    BrowserModule
+      BrowserModule,
+      HttpClientModule
   ],
     providers: [
     DataService

@@ -10,7 +10,6 @@ namespace BookClub96.Controllers
     [Route("api/[Controller]")]
     [ApiController]
     [Produces("application/json")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BooksController : ControllerBase
     {
         private readonly IBookClubRepository _repository;

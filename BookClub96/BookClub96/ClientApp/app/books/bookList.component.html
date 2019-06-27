@@ -1,5 +1,16 @@
 ﻿<div class="row">
-    <ul>
-        <li *ngFor="let b of books">{{ b.title }}: {{b.author}}</li>
-    </ul>
+    
+    <div class="book-info col-md-4" *ngFor="let b of books">
+        <div class="card bg-light p-1 m-1">
+        <img src="/img/{{b.id}}.jpg" class="img-fluid" [alt]="b.title" />
+        <div class="book-name">{{ b.title }}</div>
+        <ul class="book-props">
+            <li><strong>Author</strong>: {{b.author}}</li>
+            <li><strong>Author</strong>: {{b.genre}}</li>
+            <li><strong>Synopsis</strong>: {{b.author}}</li>
+        </ul>
+            <button id="rateButton" class="btn btn-success">Rate</button>
+        </div>
+    </div>
+
 </div>

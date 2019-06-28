@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-9\">\r\n        <book-list></book-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <div class=\"card bg-light p-1 m-1\">\r\n            <h3> Search Books</h3>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-9\">\r\n        <book-list></book-list>\r\n    </div>\r\n    <div class=\"col-md-3\">\r\n        <meeting-manager></meeting-manager>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -19,6 +19,17 @@ module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-9\">\r\n       
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"book-info col-md-4\" *ngFor=\"let b of books\">\r\n        <div class=\"card bg-light p-1 m-1\">\r\n        <img src=\"/img/{{b.id}}.jpg\" class=\"img-fluid\" [alt]=\"b.title\" />\r\n        <div class=\"book-name\">{{ b.title }}</div>\r\n        <ul class=\"book-props\">\r\n            <li><strong>Author</strong>: {{b.author}}</li>\r\n            <li><strong>Author</strong>: {{b.genre}}</li>\r\n            <li><strong>Synopsis</strong>: {{b.author}}</li>\r\n        </ul>\r\n            <button id=\"rateButton\" class=\"btn btn-success\">Rate</button>\r\n        </div>\r\n    </div>\r\n\r\n</div>"
+
+/***/ }),
+
+/***/ "../node_modules/raw-loader/index.js!./app/books/meetingManager.component.html":
+/*!****************************************************************************!*\
+  !*** ../node_modules/raw-loader!./app/books/meetingManager.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"card bg-light p-1 m-1\">\r\n    <h3>Create Meeting</h3>\r\n</div>"
 
 /***/ }),
 
@@ -92,7 +103,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./app/app.component.ts");
 /* harmony import */ var _books_bookList_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./books/bookList.component */ "./app/books/bookList.component.ts");
-/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shared/dataService */ "./app/shared/dataService.ts");
+/* harmony import */ var _books_meetingManager_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./books/meetingManager.component */ "./app/books/meetingManager.component.ts");
+/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./shared/dataService */ "./app/shared/dataService.ts");
+
 
 
 
@@ -107,14 +120,15 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _books_bookList_component__WEBPACK_IMPORTED_MODULE_5__["BookList"]
+                _books_bookList_component__WEBPACK_IMPORTED_MODULE_5__["BookList"],
+                _books_meetingManager_component__WEBPACK_IMPORTED_MODULE_6__["MeetingManager"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
             ],
             providers: [
-                _shared_dataService__WEBPACK_IMPORTED_MODULE_6__["DataService"]
+                _shared_dataService__WEBPACK_IMPORTED_MODULE_7__["DataService"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
@@ -133,7 +147,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".book-info img {\r\n    max-width: 80px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n\r\n.book-info .book-name {\r\n    font-size: large;\r\n    font-weight: bold;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkNsaWVudEFwcC9hcHAvYm9va3MvYm9va0xpc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGVBQWU7SUFDZixXQUFXO0lBQ1gsYUFBYTtJQUNiLHVCQUF1QjtBQUMzQjs7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckIiLCJmaWxlIjoiQ2xpZW50QXBwL2FwcC9ib29rcy9ib29rTGlzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmJvb2staW5mbyBpbWcge1xyXG4gICAgbWF4LXdpZHRoOiA4MHB4O1xyXG4gICAgZmxvYXQ6IGxlZnQ7XHJcbiAgICBtYXJnaW46IDAgMnB4O1xyXG4gICAgYm9yZGVyOiBzb2xpZCAxcHggYmxhY2s7XHJcbn1cclxuXHJcbi5ib29rLWluZm8gLmJvb2stbmFtZSB7XHJcbiAgICBmb250LXNpemU6IGxhcmdlO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbn1cclxuIl19 */"
+module.exports = ".book-info img {\r\n    max-width: 120px;\r\n    float: left;\r\n    margin: 0 2px;\r\n    border: solid 1px black;\r\n}\r\n\r\n.book-info .book-name {\r\n    font-size: large;\r\n    font-weight: bold;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkNsaWVudEFwcC9hcHAvYm9va3MvYm9va0xpc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGdCQUFnQjtJQUNoQixXQUFXO0lBQ1gsYUFBYTtJQUNiLHVCQUF1QjtBQUMzQjs7QUFFQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckIiLCJmaWxlIjoiQ2xpZW50QXBwL2FwcC9ib29rcy9ib29rTGlzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmJvb2staW5mbyBpbWcge1xyXG4gICAgbWF4LXdpZHRoOiAxMjBweDtcclxuICAgIGZsb2F0OiBsZWZ0O1xyXG4gICAgbWFyZ2luOiAwIDJweDtcclxuICAgIGJvcmRlcjogc29saWQgMXB4IGJsYWNrO1xyXG59XHJcblxyXG4uYm9vay1pbmZvIC5ib29rLW5hbWUge1xyXG4gICAgZm9udC1zaXplOiBsYXJnZTtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -176,6 +190,40 @@ var BookList = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_dataService__WEBPACK_IMPORTED_MODULE_2__["DataService"]])
     ], BookList);
     return BookList;
+}());
+
+
+
+/***/ }),
+
+/***/ "./app/books/meetingManager.component.ts":
+/*!***********************************************!*\
+  !*** ./app/books/meetingManager.component.ts ***!
+  \***********************************************/
+/*! exports provided: MeetingManager */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MeetingManager", function() { return MeetingManager; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/dataService */ "./app/shared/dataService.ts");
+
+
+
+var MeetingManager = /** @class */ (function () {
+    function MeetingManager(data) {
+        this.data = data;
+    }
+    MeetingManager = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: "meeting-manager",
+            template: __webpack_require__(/*! raw-loader!./meetingManager.component.html */ "../node_modules/raw-loader/index.js!./app/books/meetingManager.component.html")
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_dataService__WEBPACK_IMPORTED_MODULE_2__["DataService"]])
+    ], MeetingManager);
+    return MeetingManager;
 }());
 
 

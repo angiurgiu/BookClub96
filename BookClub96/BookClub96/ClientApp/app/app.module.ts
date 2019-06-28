@@ -4,13 +4,15 @@ import { HttpClientModule } from "@angular/common/http"
 
 import { AppComponent } from './app.component';
 import { BookList } from './books/bookList.component'
+import { MeetingManager } from './books/meetingManager.component'
 import { DataService } from './shared/dataService'
 
 
 @NgModule({
   declarations: [
       AppComponent,
-      BookList
+      BookList,
+      MeetingManager
   ],
   imports: [
       BrowserModule,

@@ -46,7 +46,7 @@ namespace BookClub96.Controllers
                     "angiurgiu@gmail.com", 
                     model.Subject, 
                     $"From: {model.Name} - {model.Email}", 
-                    $"MEssage: {model.Message}");
+                    $"Message: {model.Message}");
 
                 ViewBag.UserMessage = "Mail Sent";
                 ModelState.Clear();
@@ -63,7 +63,7 @@ namespace BookClub96.Controllers
         }
 
         [Authorize]
-        public IActionResult Books()
+        public IActionResult Meetings()
         {
             return View();
         }

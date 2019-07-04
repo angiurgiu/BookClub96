@@ -1,5 +1,5 @@
-﻿export interface Book {
-    id: number;
+﻿export class Book {
+    bookId: number;
     goodreadsId: string;
     goodreadsLink: string;
     coverLink: string;

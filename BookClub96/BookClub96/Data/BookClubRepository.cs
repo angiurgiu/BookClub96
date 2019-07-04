@@ -87,6 +87,8 @@ namespace BookClub96.Data
                     .ThenInclude(gm => gm.Member)
                     .Include(g => g.Meetings)
                     .ThenInclude(m => m.Book)
+                    .Include(g => g.Meetings)
+                    .ThenInclude(m => m.Attendees)
                     .ToList();
             }
             else

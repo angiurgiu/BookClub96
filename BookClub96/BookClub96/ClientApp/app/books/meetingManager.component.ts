@@ -9,5 +9,13 @@ import { DataService } from "../shared/dataService";
 })
 export class MeetingManager
 {
-    constructor(private data: DataService) {}
+    constructor(private data: DataService) { }
+
+    createMeeting() {
+        this.data.createMeeting();
+    }
+
+    saveMeeting() {
+        this.data.saveMeeting();
+    }
 }

@@ -1,3 +1,30 @@
 ﻿<div class="card bg-light p-1 m-1">
-    <h3>Create Meeting</h3>
+    <div *ngIf="data.editedMeeting; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <h3>Edit Meeting</h3>
+        <div><strong>Book</strong>: {{ data.editedMeeting.book.title }}</div>
+        <div><strong>Meeting time</strong>: {{ data.editedMeeting.time }}</div>
+        <div><strong>Address</strong>: {{ data.editedMeeting.address }}</div>
+
+        <strong>Host: </strong>
+        <select *ngFor="let attendee of data.editedMeeting.attendees">
+            <div *ngIf="attendee.isHost; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+                <option value="{{ attendee.member.userName }}" selected="selected">{{ attendee.member.userName }}</option>
+            </ng-template>
+            <ng-template #elseBlock>
+                <option value="{{ attendee.member.userName }}">{{ attendee.member.userName }}</option>
+            </ng-template>
+        </select>
+
+        <strong>Attendees:</strong>
+        <ul *ngFor="let attendee of data.editedMeeting.attendees">
+            <li>{{attendee.member.userName}}</li>
+        </ul>
+        <button id="editButton" class="btn btn-success" (click)="saveMeeting()">Save</button>
+    </ng-template>
+    <ng-template #elseBlock>
+        <img src="https://knowledgequest.aasl.org/wp-content/uploads/2015/01/books.png"/>
+        <button id="editButton" class="btn btn-success" (click)="createMeeting()">Create new meeting</button>
+    </ng-template>
 </div>

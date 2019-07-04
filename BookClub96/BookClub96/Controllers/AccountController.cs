@@ -122,7 +122,7 @@ namespace BookClub96.Controllers
                         return Redirect(Request.Query["ReturnUrl"].First());
                     }
                     
-                    return RedirectToAction("Books", "App");
+                    return RedirectToAction("Meetings", "App");
                 }
             }
 

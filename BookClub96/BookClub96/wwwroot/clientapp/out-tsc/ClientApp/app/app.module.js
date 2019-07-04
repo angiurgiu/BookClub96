@@ -2,17 +2,19 @@ import * as tslib_1 from "tslib";
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
-import { AppComponent } from './app.component';
-import { BookList } from './books/bookList.component';
+import { MeetingsComponent } from './app.component';
+import { BookList } from './books/meetingList.component';
+import { MeetingManager } from './books/meetingManager.component';
 import { DataService } from './shared/dataService';
-var AppModule = /** @class */ (function () {
-    function AppModule() {
+var MeetingsModule = /** @class */ (function () {
+    function MeetingsModule() {
     }
-    AppModule = tslib_1.__decorate([
+    MeetingsModule = tslib_1.__decorate([
         NgModule({
             declarations: [
-                AppComponent,
-                BookList
+                MeetingsComponent,
+                BookList,
+                MeetingManager
             ],
             imports: [
                 BrowserModule,
@@ -21,10 +23,10 @@ var AppModule = /** @class */ (function () {
             providers: [
                 DataService
             ],
-            bootstrap: [AppComponent]
+            bootstrap: [MeetingsComponent]
         })
-    ], AppModule);
-    return AppModule;
+    ], MeetingsModule);
+    return MeetingsModule;
 }());
-export { AppModule };
+export { MeetingsModule };
 //# sourceMappingURL=app.module.js.map

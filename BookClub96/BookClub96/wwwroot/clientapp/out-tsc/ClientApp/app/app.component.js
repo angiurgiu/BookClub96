@@ -1,16 +1,16 @@
 import * as tslib_1 from "tslib";
 import { Component } from '@angular/core';
-var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+var MeetingsComponent = /** @class */ (function () {
+    function MeetingsComponent() {
         this.title = "Book Club 96";
     }
-    AppComponent = tslib_1.__decorate([
+    MeetingsComponent = tslib_1.__decorate([
         Component({
-            selector: "the-books",
-            templateUrl: "./app.component.html"
+            selector: "the-meetings",
+            templateUrl: "./meetings.component.html"
         })
-    ], AppComponent);
-    return AppComponent;
+    ], MeetingsComponent);
+    return MeetingsComponent;
 }());
-export { AppComponent };
+export { MeetingsComponent };
 //# sourceMappingURL=app.component.js.map

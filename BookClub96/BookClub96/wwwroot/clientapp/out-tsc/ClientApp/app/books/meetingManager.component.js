@@ -5,6 +5,12 @@ var MeetingManager = /** @class */ (function () {
     function MeetingManager(data) {
         this.data = data;
     }
+    MeetingManager.prototype.createMeeting = function () {
+        this.data.createMeeting();
+    };
+    MeetingManager.prototype.saveMeeting = function () {
+        this.data.saveMeeting();
+    };
     MeetingManager = tslib_1.__decorate([
         Component({
             selector: "meeting-manager",

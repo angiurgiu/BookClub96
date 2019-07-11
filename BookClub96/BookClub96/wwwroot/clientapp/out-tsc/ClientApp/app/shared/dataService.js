@@ -27,6 +27,10 @@ var DataService = /** @class */ (function () {
     DataService.prototype.editMeeting = function (meeting) {
         this.editedMeeting = meeting;
     };
+    DataService.prototype.createMeeting = function () {
+    };
+    DataService.prototype.saveMeeting = function () {
+    };
     DataService = tslib_1.__decorate([
         Injectable(),
         tslib_1.__metadata("design:paramtypes", [HttpClient])

@@ -7,7 +7,7 @@ import { Meeting } from "../shared/meeting"
     templateUrl: "meetingList.component.html",
     styleUrls: ["meetingList.component.css"]
 })
-export class BookList implements OnInit {
+export class MeetingList implements OnInit {
 
     constructor(private data: DataService) {
     }

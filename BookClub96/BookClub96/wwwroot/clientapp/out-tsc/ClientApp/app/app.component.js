@@ -7,7 +7,7 @@ var MeetingsComponent = /** @class */ (function () {
     MeetingsComponent = tslib_1.__decorate([
         Component({
             selector: "the-meetings",
-            templateUrl: "./meetings.component.html"
+            templateUrl: "./app.component.html"
         })
     ], MeetingsComponent);
     return MeetingsComponent;

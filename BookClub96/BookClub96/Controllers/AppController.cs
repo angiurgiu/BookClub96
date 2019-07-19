@@ -67,5 +67,10 @@ namespace BookClub96.Controllers
         {
             return View();
         }
+
+        public IActionResult Groups()
+        {
+            return View();
+        }
     }
 }

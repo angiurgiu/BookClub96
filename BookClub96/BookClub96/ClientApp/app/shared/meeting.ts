@@ -13,7 +13,7 @@ export class Meeting {
 }
 
 export class Attendee {
-    memberId: number;
+    memberId: string;
     isHost: true;
     member: Member;
 }

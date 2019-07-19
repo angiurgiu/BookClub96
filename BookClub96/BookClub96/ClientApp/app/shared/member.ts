@@ -1,5 +1,5 @@
 ﻿export class Member {
-    memberId: string;
+    id: string;
     userName: string;
     email: string;
     firstName: string;

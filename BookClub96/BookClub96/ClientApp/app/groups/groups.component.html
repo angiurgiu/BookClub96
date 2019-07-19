@@ -1,0 +1,40 @@
+﻿<div *ngIf="isUserSignedIn() && loadedGroups">
+    <strong class="alert-info">My groups:</strong>
+    <div class="row">
+        <div class="col-md-6" *ngFor="let g of groups">
+            <div class="card bg-light p-1 m-1" *ngIf="isMember(g)">
+                <ul>
+                    <li><strong>Group Name</strong>: {{g.groupName}}</li>
+                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>
+                    <br />
+                    <strong>Members:</strong>
+                    <ul *ngFor="let member of g.members">
+                        <li>{{member.member.userName}}</li>
+                    </ul>
+                </ul>
+                <button class="btn btn-success" (click)="leave(g)">Leave Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loadedGroups">
+    <strong class="alert-info">Groups:</strong>
+    <div class="row">
+        <div class="col-md-6" *ngFor="let g of groups">
+            <div class="card bg-light p-1 m-1" *ngIf="!isMember(g)">
+                <ul>
+                    <li><strong>Group Name</strong>: {{g.groupName}}</li>
+                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>
+                    <br />
+                    <strong>Members:</strong>
+                    <ul *ngFor="let member of g.members">
+                        <li>{{member.member.userName}}</li>
+                    </ul>
+                </ul>
+                <button class="btn btn-success" *ngIf="canJoin(g)" (click)="joinGroup(g)">Join Group</button>
+            </div>
+        </div>
+    </div>
+<div>
+

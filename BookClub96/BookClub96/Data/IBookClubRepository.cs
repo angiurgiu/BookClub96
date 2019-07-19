@@ -7,7 +7,7 @@ namespace BookClub96.Data
     {
         Member GetUser(string username);
         IEnumerable<Book> GetAllBooks();
-        IEnumerable<Group> GetAllGroups();
+        IEnumerable<Group> GetAllGroups(bool includeMeetings);
         void AddEntity(object entity);
         Group GetGroupById(int id, string user);
         IEnumerable<Book> GetAllBooksByGenre(string genre);

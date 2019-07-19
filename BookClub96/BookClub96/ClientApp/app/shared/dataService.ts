@@ -3,7 +3,9 @@ import { Injectable } from "@angular/core"
 import { Observable, OperatorFunction } from "rxjs"
 import { map } from "rxjs/operators"
 import { Book } from "./book"
+import { Group } from "./group"
 import { Meeting } from "./meeting"
+import { Member } from "./member"
 
 @Injectable()
 export class DataService
@@ -12,11 +14,18 @@ export class DataService
     {
     }
 
+    private token: string = "";
+    private tokenExpiration: Date;
+
     public editedMeeting: Meeting;
 
     public meetings: Meeting[] = [];
 
+    public groups: Group[] = [];
+
     public books: Book[] = [];
+
+    public currentUser: Member;
 
     loadBooks(): Observable<boolean> {
         return this.http.get("/api/books")
@@ -33,6 +42,26 @@ export class DataService
                 this.meetings = data;
                 return true;
             })) as OperatorFunction<any,boolean>);
+    }
+
+    loadGroups(): Observable<boolean> {
+        return this.http.get("/api/groups?includeMeetings=true&getAll=true")
+            .pipe((map((data: any[]) => {
+                this.groups = data;
+                return true;
+            })) as OperatorFunction<any, boolean>);
+    }
+
+    loadCurrentUser(): Observable<boolean> {
+            return this.http.get("/api/membership/currentUser")
+                .pipe((map((data: any) => {
+                    this.currentUser = data;
+                    return true;
+                })) as OperatorFunction<any, boolean>);
+        }
+
+    public get loginRequired() {
+        return this.token.length == 0 || this.tokenExpiration > new Date();
     }
 
     public editMeeting(meeting: Meeting) {

@@ -43,12 +43,23 @@ namespace BookClub96.Data
             }
         }
 
-        public IEnumerable<Group> GetAllGroups()
+        public IEnumerable<Group> GetAllGroups(bool includeMeetings)
         {
-            return _ctx.Groups
-                .Include(g => g.Meetings)
-                .ThenInclude(m => m.Book)
-                .ToList();
+            if (includeMeetings)
+            {
+                return _ctx.Groups
+                    .Include(g => g.Members)
+                    .ThenInclude(m => m.Member)
+                    .Include(g => g.Meetings)
+                    .ToList();
+            }
+            else
+            {
+                return _ctx.Groups
+                    .Include(g => g.Members)
+                    .ThenInclude(m => m.Member)
+                    .ToList();
+            }
         }
 
         public void AddEntity(object entity)

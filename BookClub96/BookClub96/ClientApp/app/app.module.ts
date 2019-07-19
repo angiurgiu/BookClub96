@@ -3,15 +3,19 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http"
 
 import { MeetingsComponent } from './app.component';
-import { MeetingList } from './books/meetingList.component'
-import { Meetings } from './books/meetings.component'
-import { MeetingManager } from './books/meetingManager.component'
+import { GroupsComponent } from './app.component';
+import { MeetingList } from './meetings/meetingList.component'
+import { Meetings } from './meetings/meetings.component'
+import { Groups } from './groups/groups.component'
+import { Login } from './login/login.component'
+import { MeetingManager } from './meetings/meetingManager.component'
 import { CreateMeeting } from './admin/createMeeting.component'
 import { DataService } from './shared/dataService'
 
 import { RouterModule } from '@angular/router'
+import { FormsModule } from '@angular/forms'
 
-let routes = [
+let meetingRoutes = [
     {
         path: "",
         component: Meetings
@@ -27,12 +31,15 @@ let routes = [
       MeetingList,
       MeetingManager,
       Meetings,
-      CreateMeeting
+      GroupsComponent,
+      CreateMeeting,
+      Login
   ],
   imports: [
       BrowserModule,
+      FormsModule,
       HttpClientModule,
-      RouterModule.forRoot(routes,
+      RouterModule.forRoot(meetingRoutes,
           {
               useHash: true,
               enableTracing: false // for debugging
@@ -44,3 +51,37 @@ let routes = [
     bootstrap: [MeetingsComponent]
 })
 export class MeetingsModule { }
+
+let groupRoutes = [
+    {
+        path: "",
+        component: Groups
+    },
+    {
+        path: "login",
+        component: Login
+    }];
+
+@NgModule({
+    declarations: [
+        GroupsComponent,
+        Groups,
+        Login,
+        MeetingsComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(groupRoutes,
+            {
+                useHash: true,
+                enableTracing: false // for debugging
+            })
+    ],
+    providers: [
+        DataService
+    ],
+    bootstrap: [GroupsComponent]
+})
+export class GroupsModule { }

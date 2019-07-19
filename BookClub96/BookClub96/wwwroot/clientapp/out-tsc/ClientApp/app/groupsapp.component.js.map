@@ -1,0 +1,1 @@
+{"version":3,"file":"groupsapp.component.js","sourceRoot":"","sources":["../../../../../ClientApp/app/groupsapp.component.ts"],"names":[],"mappings":";AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,eAAe,CAAC;AAM1C;IAJA;QAKI,UAAK,GAAG,qBAAqB,CAAC;IAClC,CAAC;IAFY,eAAe;QAJ3B,SAAS,CAAC;YACP,QAAQ,EAAE,YAAY;YACtB,WAAW,EAAE,4BAA4B;SAC5C,CAAC;OACW,eAAe,CAE3B;IAAD,sBAAC;CAAA,AAFD,IAEC;SAFY,eAAe"}

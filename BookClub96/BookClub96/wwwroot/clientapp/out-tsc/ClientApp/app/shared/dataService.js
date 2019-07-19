@@ -5,7 +5,9 @@ import { map } from "rxjs/operators";
 var DataService = /** @class */ (function () {
     function DataService(http) {
         this.http = http;
+        this.token = "";
         this.meetings = [];
+        this.groups = [];
         this.books = [];
     }
     DataService.prototype.loadBooks = function () {
@@ -24,6 +26,29 @@ var DataService = /** @class */ (function () {
             return true;
         })));
     };
+    DataService.prototype.loadGroups = function () {
+        var _this = this;
+        return this.http.get("/api/groups?includeMeetings=true&getAll=true")
+            .pipe((map(function (data) {
+            _this.groups = data;
+            return true;
+        })));
+    };
+    DataService.prototype.loadCurrentUser = function () {
+        var _this = this;
+        return this.http.get("/api/membership/currentUser")
+            .pipe((map(function (data) {
+            _this.currentUser = data;
+            return true;
+        })));
+    };
+    Object.defineProperty(DataService.prototype, "loginRequired", {
+        get: function () {
+            return this.token.length == 0 || this.tokenExpiration > new Date();
+        },
+        enumerable: true,
+        configurable: true
+    });
     DataService.prototype.editMeeting = function (meeting) {
         this.editedMeeting = meeting;
     };

@@ -40,13 +40,21 @@ namespace BookClub96.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(bool includeMeetings = true)
+        public IActionResult Get(bool includeMeetings = true, bool getAll = false)
         {
             try
             {
-                var user = User.Identity.Name;
-                var results = _repository.GetAllGroupsOfUser(user, includeMeetings);
-
+                IEnumerable<Group> results;
+                if (getAll)
+                {
+                    results = _repository.GetAllGroups(includeMeetings);
+                }
+                else
+                {
+                    var user = User.Identity.Name;
+                    results = _repository.GetAllGroupsOfUser(user, includeMeetings);
+                }
+                
                 return Ok(_mapper.Map<IEnumerable<Group>, IEnumerable<GroupViewModel>>(results));
             }
             catch (Exception ex)

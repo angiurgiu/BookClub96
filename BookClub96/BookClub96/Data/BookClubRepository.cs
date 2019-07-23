@@ -76,6 +76,15 @@ namespace BookClub96.Data
                 .FirstOrDefault(g => g.Id == id && g.Members.Any(gm => gm.Member.UserName.Equals(user)));
         }
 
+        public Group GetGroupById(int id)
+        {
+            return _ctx.Groups
+                .Include(g => g.Members).ThenInclude(m => m.Member)
+                .Include(g => g.Meetings).ThenInclude(m => m.Book)
+                .Include(g => g.Meetings).ThenInclude(m => m.Attendees)
+                .FirstOrDefault(g => g.Id == id);
+        }
+
         public IEnumerable<Book> GetAllBooksByGenre(string genre)
         {
             return _ctx.Books

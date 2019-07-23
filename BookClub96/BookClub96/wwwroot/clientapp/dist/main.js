@@ -387,7 +387,7 @@ var Groups = /** @class */ (function () {
                 alert("Sending application request.");
             }
             else if (group.type === _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"].Open) {
-                alert("Joined group.");
+                this.data.joinGroup(group, this.data.currentUser);
             }
         }
     };
@@ -631,6 +631,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "../node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group */ "./app/shared/group.ts");
+
 
 
 
@@ -697,6 +699,19 @@ var DataService = /** @class */ (function () {
     DataService.prototype.createMeeting = function () {
     };
     DataService.prototype.saveMeeting = function () {
+    };
+    DataService.prototype.joinGroup = function (group, member) {
+        var groupMember = new _group__WEBPACK_IMPORTED_MODULE_4__["GroupMember"]();
+        groupMember.memberId = member.id;
+        groupMember.member = member;
+        groupMember.group = group;
+        groupMember.groupId = group.groupId;
+        groupMember.isAdmin = false;
+        var op = this.http.post("/api/groupmembers", groupMember);
+        op.subscribe(function (data) {
+            console.log(data);
+        }, function (error) { return console.log(error); });
+        return op;
     };
     DataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),

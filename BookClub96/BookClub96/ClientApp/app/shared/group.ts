@@ -20,4 +20,6 @@ export class GroupMember {
     isAdmin: boolean;
     memberId: string;
     member: Member;
+    group: Group;
+    groupId: number;
 }

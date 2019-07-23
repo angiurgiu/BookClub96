@@ -2,6 +2,7 @@ import * as tslib_1 from "tslib";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
+import { GroupMember } from "./group";
 var DataService = /** @class */ (function () {
     function DataService(http) {
         this.http = http;
@@ -64,6 +65,18 @@ var DataService = /** @class */ (function () {
     DataService.prototype.createMeeting = function () {
     };
     DataService.prototype.saveMeeting = function () {
+    };
+    DataService.prototype.joinGroup = function (group, member) {
+        var groupMember = new GroupMember();
+        groupMember.memberId = member.id;
+        groupMember.member = member;
+        groupMember.group = group;
+        groupMember.groupId = group.groupId;
+        groupMember.isAdmin = false;
+        return this.http.post("/api/groups/addmember", groupMember)
+            .pipe((map(function (data) {
+            return true;
+        })));
     };
     DataService = tslib_1.__decorate([
         Injectable(),

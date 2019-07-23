@@ -42,7 +42,7 @@ var Groups = /** @class */ (function () {
                 alert("Sending application request.");
             }
             else if (group.type === GroupType.Open) {
-                alert("Joined group.");
+                this.data.joinGroup(group, this.data.currentUser);
             }
         }
     };

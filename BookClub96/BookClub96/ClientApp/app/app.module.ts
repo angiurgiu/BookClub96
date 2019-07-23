@@ -31,7 +31,6 @@ let meetingRoutes = [
       MeetingList,
       MeetingManager,
       Meetings,
-      GroupsComponent,
       CreateMeeting,
       Login
   ],
@@ -67,7 +66,6 @@ let groupRoutes = [
         GroupsComponent,
         Groups,
         Login,
-        MeetingsComponent
     ],
     imports: [
         BrowserModule,

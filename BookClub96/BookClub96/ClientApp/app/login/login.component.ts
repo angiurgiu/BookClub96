@@ -16,6 +16,12 @@ export class Login {
     };
 
     onLogin() {
-        alert(this.creds.username);
+        this.data.login(this.creds)
+            .subscribe(success => {
+                    this.router.navigate(["/"]);
+                },
+                err => this.errorMessage = "Failed to login.");
     }
+
+    errorMessage: string = "";
 }

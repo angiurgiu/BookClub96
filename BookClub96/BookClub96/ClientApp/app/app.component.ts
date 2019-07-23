@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: "the-groups",
-    templateUrl: "./app.component.html"
+    templateUrl: "./groups.component.html"
 })
 export class GroupsComponent {
     title = "Book Club 96 Groups";
@@ -10,7 +10,7 @@ export class GroupsComponent {
 
 @Component({
   selector: "the-meetings",
-  templateUrl: "./app.component.html"
+  templateUrl: "./meetings.component.html"
 })
 export class MeetingsComponent {
   title = "Book Club 96 Meetings";

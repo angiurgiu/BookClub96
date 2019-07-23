@@ -7,7 +7,7 @@ var GroupsComponent = /** @class */ (function () {
     GroupsComponent = tslib_1.__decorate([
         Component({
             selector: "the-groups",
-            templateUrl: "./app.component.html"
+            templateUrl: "./groups.component.html"
         })
     ], GroupsComponent);
     return GroupsComponent;
@@ -20,7 +20,7 @@ var MeetingsComponent = /** @class */ (function () {
     MeetingsComponent = tslib_1.__decorate([
         Component({
             selector: "the-meetings",
-            templateUrl: "./app.component.html"
+            templateUrl: "./meetings.component.html"
         })
     ], MeetingsComponent);
     return MeetingsComponent;

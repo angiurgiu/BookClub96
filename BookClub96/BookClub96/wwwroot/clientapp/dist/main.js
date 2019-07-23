@@ -11,10 +11,10 @@ module.exports = "<div class=\"card bg-light p-1 m-1\">\r\n\r\n    <h3>Create Me
 
 /***/ }),
 
-/***/ "../node_modules/raw-loader/index.js!./app/app.component.html":
-/*!***********************************************************!*\
-  !*** ../node_modules/raw-loader!./app/app.component.html ***!
-  \***********************************************************/
+/***/ "../node_modules/raw-loader/index.js!./app/groups.component.html":
+/*!**************************************************************!*\
+  !*** ../node_modules/raw-loader!./app/groups.component.html ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -40,7 +40,18 @@ module.exports = "<div *ngIf=\"isUserSignedIn() && loadedGroups\">\r\n    <stron
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-md-4 col-md-offset-4\">\n    <form (submit)=\"onLogin()\">\n      <div class=\"form-group\">\n        <label for=\"username\">Username</label>\n        <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" />\n      </div>\n      <div class=\"form-group\">\n        <label for=\"password\">Password</label>\n        <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" />\n      </div>\n      <div class=\"form-group\">\n        <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" />\n        <a routerLink=\"/\" class=\"btn btn-default\">Cancel</a>\n      </div>\n    </form>\n  </div>\n</div>"
+module.exports = "<div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n        <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\n        <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\n            <div class=\"form-group\">\n                <label for=\"username\">Username</label>\n                <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required/>\n                <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Username is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"password\">Password</label>\n                <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\"/>\n                <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">PAssword is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" [disabled]=\"theForm.invalid\"/>\n                <a routerLink=\"/\" class=\"btn btn-default\">Cancel</a>\n            </div>\n        </form>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "../node_modules/raw-loader/index.js!./app/meetings.component.html":
+/*!****************************************************************!*\
+  !*** ../node_modules/raw-loader!./app/meetings.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -171,7 +182,7 @@ var GroupsComponent = /** @class */ (function () {
     GroupsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: "the-groups",
-            template: __webpack_require__(/*! raw-loader!./app.component.html */ "../node_modules/raw-loader/index.js!./app/app.component.html")
+            template: __webpack_require__(/*! raw-loader!./groups.component.html */ "../node_modules/raw-loader/index.js!./app/groups.component.html")
         })
     ], GroupsComponent);
     return GroupsComponent;
@@ -184,7 +195,7 @@ var MeetingsComponent = /** @class */ (function () {
     MeetingsComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: "the-meetings",
-            template: __webpack_require__(/*! raw-loader!./app.component.html */ "../node_modules/raw-loader/index.js!./app/app.component.html")
+            template: __webpack_require__(/*! raw-loader!./meetings.component.html */ "../node_modules/raw-loader/index.js!./app/meetings.component.html")
         })
     ], MeetingsComponent);
     return MeetingsComponent;
@@ -254,7 +265,6 @@ var MeetingsModule = /** @class */ (function () {
                 _meetings_meetingList_component__WEBPACK_IMPORTED_MODULE_5__["MeetingList"],
                 _meetings_meetingManager_component__WEBPACK_IMPORTED_MODULE_9__["MeetingManager"],
                 _meetings_meetings_component__WEBPACK_IMPORTED_MODULE_6__["Meetings"],
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["GroupsComponent"],
                 _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_10__["CreateMeeting"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"]
             ],
@@ -295,7 +305,6 @@ var GroupsModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["GroupsComponent"],
                 _groups_groups_component__WEBPACK_IMPORTED_MODULE_7__["Groups"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"],
-                _app_component__WEBPACK_IMPORTED_MODULE_4__["MeetingsComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -456,9 +465,14 @@ var Login = /** @class */ (function () {
             username: "",
             password: ""
         };
+        this.errorMessage = "";
     }
     Login.prototype.onLogin = function () {
-        alert(this.creds.username);
+        var _this = this;
+        this.data.login(this.creds)
+            .subscribe(function (success) {
+            _this.router.navigate(["/"]);
+        }, function (err) { return _this.errorMessage = "Failed to login."; });
     };
     Login = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -668,6 +682,15 @@ var DataService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    DataService.prototype.login = function (creds) {
+        var _this = this;
+        return this.http.post("/account/createtoken", creds)
+            .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            _this.token = data.token;
+            _this.tokenExpiration = data.expiration;
+            return true;
+        })));
+    };
     DataService.prototype.editMeeting = function (meeting) {
         this.editedMeeting = meeting;
     };

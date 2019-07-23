@@ -12,6 +12,7 @@ import { MeetingManager } from './meetings/meetingManager.component';
 import { CreateMeeting } from './admin/createMeeting.component';
 import { DataService } from './shared/dataService';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 var meetingRoutes = [
     {
         path: "",
@@ -37,6 +38,7 @@ var MeetingsModule = /** @class */ (function () {
             ],
             imports: [
                 BrowserModule,
+                FormsModule,
                 HttpClientModule,
                 RouterModule.forRoot(meetingRoutes, {
                     useHash: true,
@@ -70,9 +72,11 @@ var GroupsModule = /** @class */ (function () {
             declarations: [
                 GroupsComponent,
                 Groups,
+                Login,
             ],
             imports: [
                 BrowserModule,
+                FormsModule,
                 HttpClientModule,
                 RouterModule.forRoot(groupRoutes, {
                     useHash: true,

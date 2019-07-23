@@ -49,6 +49,15 @@ var DataService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    DataService.prototype.login = function (creds) {
+        var _this = this;
+        return this.http.post("/account/createtoken", creds)
+            .pipe((map(function (data) {
+            _this.token = data.token;
+            _this.tokenExpiration = data.expiration;
+            return true;
+        })));
+    };
     DataService.prototype.editMeeting = function (meeting) {
         this.editedMeeting = meeting;
     };

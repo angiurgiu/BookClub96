@@ -1,7 +1,9 @@
 ﻿import { HttpClient } from "@angular/common/http"
+import { HttpHeaders } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, OperatorFunction } from "rxjs"
 import { map } from "rxjs/operators"
+
 import { Book } from "./book"
 import { Group } from "./group"
 import { GroupMember } from "./group"
@@ -85,24 +87,13 @@ export class DataService
     public saveMeeting() {
     }
 
-    joinGroup(group: Group, member: Member): Observable<Object> {
-
-        var groupMember = new GroupMember();
-        groupMember.memberId = member.id;
-        groupMember.member = member;
-        groupMember.group = group;
-        groupMember.groupId = group.groupId;
-        groupMember.isAdmin = false;
-
-        var op = this.http.post("/api/groupmembers", groupMember);
-        op.subscribe(data => {
-                console.log(data);
-            },
-            error => console.log(error)
-        );
-
-        return op;
+    joinGroup(groupMember: GroupMember) {
+        return this.http.post("/api/groupmembers", groupMember,
+                {
+                    headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+                })
+            .pipe((map((data: any) => {
+                return true;
+            })) as OperatorFunction<any, boolean>);
     }
-
-    errorMessage;
 }

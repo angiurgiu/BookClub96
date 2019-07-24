@@ -2,11 +2,13 @@ import * as tslib_1 from "tslib";
 import { Component } from "@angular/core";
 import { DataService } from "../shared/dataService";
 import { GroupType } from "../shared/group";
+import { GroupMember } from "../shared/group";
 import { Router } from "@angular/router";
 var Groups = /** @class */ (function () {
     function Groups(data, router) {
         this.data = data;
         this.router = router;
+        this.errorMessage = "";
         this.loadedUser = false;
         this.loadedGroups = false;
         this.groups = [];
@@ -34,6 +36,7 @@ var Groups = /** @class */ (function () {
         return false;
     };
     Groups.prototype.joinGroup = function (group) {
+        var _this = this;
         if (this.data.loginRequired) {
             this.router.navigate(["login"]);
         }
@@ -42,7 +45,22 @@ var Groups = /** @class */ (function () {
                 alert("Sending application request.");
             }
             else if (group.type === GroupType.Open) {
-                this.data.joinGroup(group, this.data.currentUser);
+                var groupMember = new GroupMember();
+                groupMember.memberId = this.data.currentUser.id;
+                groupMember.member = this.data.currentUser;
+                groupMember.group = group;
+                groupMember.groupId = group.groupId;
+                groupMember.isAdmin = false;
+                this.data.joinGroup(groupMember)
+                    .subscribe(function (success) {
+                    if (success) {
+                        _this.data.loadGroups();
+                        _this.router.navigate(['/'])
+                            .then(function () {
+                            window.location.reload();
+                        });
+                    }
+                }, function (err) { return _this.errorMessage = "Failed to join group."; });
             }
         }
     };

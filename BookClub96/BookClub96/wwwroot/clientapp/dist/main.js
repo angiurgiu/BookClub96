@@ -29,7 +29,7 @@ module.exports = "<router-outlet></router-outlet>"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"isUserSignedIn() && loadedGroups\">\r\n    <strong class=\"alert-info\">My groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" (click)=\"leave(g)\">Leave Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div *ngIf=\"loadedGroups\">\r\n    <strong class=\"alert-info\">Groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"!isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" *ngIf=\"canJoin(g)\" (click)=\"joinGroup(g)\">Join Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n<div>\r\n\r\n"
+module.exports = "<div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n<div *ngIf=\"isUserSignedIn() && loadedGroups\">\r\n    <strong class=\"alert-info\">My groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" (click)=\"leave(g)\">Leave Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div *ngIf=\"loadedGroups\">\r\n    <strong class=\"alert-info\">Groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"!isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" *ngIf=\"canJoin(g)\" (click)=\"joinGroup(g)\">Join Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n<div>\r\n\r\n"
 
 /***/ }),
 
@@ -348,10 +348,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var Groups = /** @class */ (function () {
     function Groups(data, router) {
         this.data = data;
         this.router = router;
+        this.errorMessage = "";
         this.loadedUser = false;
         this.loadedGroups = false;
         this.groups = [];
@@ -379,6 +381,7 @@ var Groups = /** @class */ (function () {
         return false;
     };
     Groups.prototype.joinGroup = function (group) {
+        var _this = this;
         if (this.data.loginRequired) {
             this.router.navigate(["login"]);
         }
@@ -387,7 +390,22 @@ var Groups = /** @class */ (function () {
                 alert("Sending application request.");
             }
             else if (group.type === _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"].Open) {
-                this.data.joinGroup(group, this.data.currentUser);
+                var groupMember = new _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupMember"]();
+                groupMember.memberId = this.data.currentUser.id;
+                groupMember.member = this.data.currentUser;
+                groupMember.group = group;
+                groupMember.groupId = group.groupId;
+                groupMember.isAdmin = false;
+                this.data.joinGroup(groupMember)
+                    .subscribe(function (success) {
+                    if (success) {
+                        _this.data.loadGroups();
+                        _this.router.navigate(['/'])
+                            .then(function () {
+                            window.location.reload();
+                        });
+                    }
+                }, function (err) { return _this.errorMessage = "Failed to join group."; });
             }
         }
     };
@@ -631,7 +649,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "../node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "../node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./group */ "./app/shared/group.ts");
 
 
 
@@ -700,18 +717,13 @@ var DataService = /** @class */ (function () {
     };
     DataService.prototype.saveMeeting = function () {
     };
-    DataService.prototype.joinGroup = function (group, member) {
-        var groupMember = new _group__WEBPACK_IMPORTED_MODULE_4__["GroupMember"]();
-        groupMember.memberId = member.id;
-        groupMember.member = member;
-        groupMember.group = group;
-        groupMember.groupId = group.groupId;
-        groupMember.isAdmin = false;
-        var op = this.http.post("/api/groupmembers", groupMember);
-        op.subscribe(function (data) {
-            console.log(data);
-        }, function (error) { return console.log(error); });
-        return op;
+    DataService.prototype.joinGroup = function (groupMember) {
+        return this.http.post("/api/groupmembers", groupMember, {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]().set("Authorization", "Bearer " + this.token)
+        })
+            .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            return true;
+        })));
     };
     DataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),

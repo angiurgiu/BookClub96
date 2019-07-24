@@ -2,6 +2,7 @@
 import { DataService } from "../shared/dataService"
 import { Group } from "../shared/group"
 import { GroupType } from "../shared/group"
+import { GroupMember } from "../shared/group"
 import { Member } from "../shared/member"
 import { Router } from "@angular/router"
 
@@ -14,6 +15,8 @@ export class Groups {
     constructor(private data: DataService, private router: Router) {
     }
 
+
+    private errorMessage: string = "";
     public loadedUser: boolean = false;
     public loadedGroups: boolean = false;
     public groups: Group[] = [];
@@ -52,7 +55,25 @@ export class Groups {
                 alert("Sending application request.");
             }
             else if (group.type === GroupType.Open) {
-                this.data.joinGroup(group, this.data.currentUser);
+
+                var groupMember = new GroupMember();
+                groupMember.memberId = this.data.currentUser.id;
+                groupMember.member = this.data.currentUser;
+                groupMember.group = group;
+                groupMember.groupId = group.groupId;
+                groupMember.isAdmin = false;
+
+                this.data.joinGroup(groupMember)
+                    .subscribe(success => {
+                        if (success) {
+                                this.data.loadGroups();
+                            this.router.navigate(['/'])
+                                .then(() => {
+                                    window.location.reload();
+                                });
+                            }
+                        },
+                        err => this.errorMessage = "Failed to join group.");
             }
         }
     }

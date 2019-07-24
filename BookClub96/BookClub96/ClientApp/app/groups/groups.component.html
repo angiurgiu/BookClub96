@@ -1,4 +1,5 @@
-﻿<div *ngIf="isUserSignedIn() && loadedGroups">
+﻿<div *ngIf="errorMessage" class="alert alert-warning">{{ errorMessage }}</div>
+<div *ngIf="isUserSignedIn() && loadedGroups">
     <strong class="alert-info">My groups:</strong>
     <div class="row">
         <div class="col-md-6" *ngFor="let g of groups">

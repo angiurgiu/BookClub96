@@ -16,6 +16,7 @@ namespace BookClub96.Controllers
     [Route("api/[Controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupMembersController : ControllerBase
     {
         private readonly BookClubContext _ctx;

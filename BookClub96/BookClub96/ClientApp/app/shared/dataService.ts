@@ -29,6 +29,7 @@ export class DataService
     public books: Book[] = [];
 
     public currentUser: Member;
+    public username: string;
 
     loadBooks(): Observable<boolean> {
         return this.http.get("/api/books")
@@ -72,6 +73,7 @@ export class DataService
             .pipe((map((data: any) => {
                     this.token = data.token;
                     this.tokenExpiration = data.expiration;
+                    this.username = creds.username;
 
                     return true;
                 })) as OperatorFunction<any, boolean>);
@@ -92,6 +94,23 @@ export class DataService
                 {
                     headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
                 })
+            .pipe((map((data: any) => {
+                return true;
+            })) as OperatorFunction<any, boolean>);
+    }
+
+    leaveGroup(groupMember: GroupMember) {
+        return this.http.post("/api/groupmembers/remove", groupMember,
+                {
+                    headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+                })
+            .pipe((map((data: any) => {
+                return true;
+            })) as OperatorFunction<any, boolean>);
+    }
+
+    createGroup(group: Group) {
+        return this.http.post("/api/groups", group)
             .pipe((map((data: any) => {
                 return true;
             })) as OperatorFunction<any, boolean>);

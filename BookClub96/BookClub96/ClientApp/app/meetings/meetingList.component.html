@@ -1,10 +1,10 @@
 ﻿<div class="row">
     
     <div class="book-info col-md-12" *ngFor="let m of meetings">
-        <div class="card bg-transparent p-1 m-1">
+        <div class="card p-1 m-1">
             <div class="row">
                 <div class="book-info col-md-5">
-                    <div class="card bg-light p-1 m-1">
+                    <div class="card p-1 m-1">
                         <img src="/img/{{m.book.bookId}}.jpg" class="img-fluid" [alt]="m.book.title" />
                         <div class="book-name">{{ m.book.title }}</div>
                         <ul class="book-props">

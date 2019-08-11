@@ -1,11 +1,26 @@
 ﻿<div *ngIf="errorMessage" class="alert alert-warning">{{ errorMessage }}</div>
-<div *ngIf="isUserSignedIn() && loadedGroups">
-    <strong class="alert-info">My groups:</strong>
-    <div class="row">
-        <div class="col-md-6" *ngFor="let g of groups">
-            <div class="card bg-light p-1 m-1" *ngIf="isMember(g)">
+<div *ngIf="loadedGroups && loadedUser">
+    <ng-template [ngIf]="!isSignedIn">
+        <h5><strong><a routerLink="/login" routerLinkActive="active">Sign in</a> to view your groups.</strong></h5>
+    </ng-template>
+
+    <ng-template [ngIf]="isPartOfAnyGroup">
+        <h4 style="display:inline;"><strong>Your groups</strong></h4>
+        <button style="margin-left: 2.5em" class="btn btn-outline-info" (click)="createGroup()">Create new</button>
+    </ng-template>
+
+    <ng-template [ngIf]="!isPartOfAnyGroup && isSignedIn">
+        <h6><strong>You're not a member of any groups. You can start your own, or join an existing one.</strong></h6>
+        <button class="btn btn-outline-info" (click)="createGroup()">Create</button>
+    </ng-template>
+    
+    <div class="row" #hasGroup>
+        <div class="col-md-6" *ngFor="let g of myGroups">
+            <div class="card p-1 m-1">
+                <div class="card-header">
+                    <strong>Group Name</strong>: {{g.groupName}}
+                </div>
                 <ul>
-                    <li><strong>Group Name</strong>: {{g.groupName}}</li>
                     <li><strong>Type</strong>: {{GroupType[g.type]}}</li>
                     <br />
                     <strong>Members:</strong>
@@ -13,19 +28,28 @@
                         <li>{{member.member.userName}}</li>
                     </ul>
                 </ul>
-                <button class="btn btn-success" (click)="leave(g)">Leave Group</button>
+                <div class="wrapper">
+                    <div class="btn-group text-center" role="group" aria-label="Basic group">
+                        <button class="btn btn-outline-warning" (click)="manageGroup(g)">Manage</button>
+                        <button class="btn btn-danger" (click)="leaveGroup(g)">Leave</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<hr/>
+
 <div *ngIf="loadedGroups">
-    <strong class="alert-info">Groups:</strong>
+    <h4><strong>Other Groups:</strong></h4>
     <div class="row">
-        <div class="col-md-6" *ngFor="let g of groups">
-            <div class="card bg-light p-1 m-1" *ngIf="!isMember(g)">
+        <div class="col-md-6" *ngFor="let g of otherGroups">
+            <div class="card p-1 m-1">
+                <div class="card-header">
+                    <strong>Group Name</strong>: {{g.groupName}}
+                </div>
                 <ul>
-                    <li><strong>Group Name</strong>: {{g.groupName}}</li>
                     <li><strong>Type</strong>: {{GroupType[g.type]}}</li>
                     <br />
                     <strong>Members:</strong>
@@ -33,7 +57,9 @@
                         <li>{{member.member.userName}}</li>
                     </ul>
                 </ul>
-                <button class="btn btn-success" *ngIf="canJoin(g)" (click)="joinGroup(g)">Join Group</button>
+                <div class="wrapper">
+                    <button class="btn ctrbtn btn-success" [disabled]="!canJoin(g)" (click)="joinGroup(g)">Join Group</button>
+                </div>
             </div>
         </div>
     </div>

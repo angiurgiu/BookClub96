@@ -1,5 +1,6 @@
 import * as tslib_1 from "tslib";
 import { HttpClient } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map } from "rxjs/operators";
 var DataService = /** @class */ (function () {
@@ -66,7 +67,17 @@ var DataService = /** @class */ (function () {
     DataService.prototype.saveMeeting = function () {
     };
     DataService.prototype.joinGroup = function (groupMember) {
-        return this.http.post("/api/groupmembers", groupMember)
+        return this.http.post("/api/groupmembers", groupMember, {
+            headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+        })
+            .pipe((map(function (data) {
+            return true;
+        })));
+    };
+    DataService.prototype.leaveGroup = function (groupMember) {
+        return this.http.post("/api/groupmembers/remove", groupMember, {
+            headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+        })
             .pipe((map(function (data) {
             return true;
         })));

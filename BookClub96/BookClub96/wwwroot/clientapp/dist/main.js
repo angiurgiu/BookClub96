@@ -22,6 +22,17 @@ module.exports = "<router-outlet></router-outlet>"
 
 /***/ }),
 
+/***/ "../node_modules/raw-loader/index.js!./app/groups/createGroup.component.html":
+/*!**************************************************************************!*\
+  !*** ../node_modules/raw-loader!./app/groups/createGroup.component.html ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row align-items-center\">\r\n    <div class=\"col\">\r\n        <div class=\"col-md-4 offset-md-4\">\r\n            <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n            <form (submit)=\"onCreate()\" #theForm=\"ngForm\" novalidate>\r\n                <div class=\"form-group\">\r\n                    <label for=\"groupName\">Group name</label>\r\n                    <input type=\"text\" class=\"form-control\" name=\"groupName\" [(ngModel)]=\"group.groupName\" #groupName=\"ngModel\" required />\r\n                    <div class=\"text-danger\" *ngIf=\"groupName.touched && groupName.invalid && groupName.errors.required\">Group name is required!</div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"members\">Members</label>\r\n                    <input type=\"text\" [disabled]=\"areMembersDisabled\" class=\"form-control\" name=\"members\" [(ngModel)]=\"group.members\" #members=\"ngModel\" required />\r\n                    <div class=\"text-danger\" disabled=\"true\" *ngIf=\"members.touched && members.invalid && members.errors.required\">Members are required!</div>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <label for=\"type\">Group type</label> <br />\r\n                \r\n                    <select class=\"form-control\" name=\"type\" [(ngModel)]=\"group.type\" #type=\"ngModel\">\r\n                        <option value=\"Open\">Open\r\n                        <option value=\"ByApplication\">ByApplication\r\n                        <option value=\"Closed\">Closed\r\n                    </select> <br />\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <input type=\"submit\" class=\"btn btn-success\" value=\"Create\" [disabled]=\"theForm.invalid\" />\r\n                    <a routerLink=\"/\" class=\"btn btn-default\">Cancel</a>\r\n                </div>\r\n            </form>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
 /***/ "../node_modules/raw-loader/index.js!./app/groups/groups.component.html":
 /*!*********************************************************************!*\
   !*** ../node_modules/raw-loader!./app/groups/groups.component.html ***!
@@ -29,7 +40,7 @@ module.exports = "<router-outlet></router-outlet>"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n<div *ngIf=\"isUserSignedIn() && loadedGroups\">\r\n    <strong class=\"alert-info\">My groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" (click)=\"leave(g)\">Leave Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div *ngIf=\"loadedGroups\">\r\n    <strong class=\"alert-info\">Groups:</strong>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of groups\">\r\n            <div class=\"card bg-light p-1 m-1\" *ngIf=\"!isMember(g)\">\r\n                <ul>\r\n                    <li><strong>Group Name</strong>: {{g.groupName}}</li>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <button class=\"btn btn-success\" *ngIf=\"canJoin(g)\" (click)=\"joinGroup(g)\">Join Group</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n<div>\r\n\r\n"
+module.exports = "<div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\r\n<div *ngIf=\"loadedGroups && loadedUser\">\r\n    <ng-template [ngIf]=\"!isSignedIn\">\r\n        <h5><strong><a routerLink=\"/login\" routerLinkActive=\"active\">Sign in</a> to view your groups.</strong></h5>\r\n    </ng-template>\r\n\r\n    <ng-template [ngIf]=\"isPartOfAnyGroup\">\r\n        <h4 style=\"display:inline;\"><strong>Your groups</strong></h4>\r\n        <button style=\"margin-left: 2.5em\" class=\"btn btn-outline-info\" (click)=\"createGroup()\">Create new</button>\r\n    </ng-template>\r\n\r\n    <ng-template [ngIf]=\"!isPartOfAnyGroup && isSignedIn\">\r\n        <h6><strong>You're not a member of any groups. You can start your own, or join an existing one.</strong></h6>\r\n        <button class=\"btn btn-outline-info\" (click)=\"createGroup()\">Create</button>\r\n    </ng-template>\r\n    \r\n    <div class=\"row\" #hasGroup>\r\n        <div class=\"col-md-6\" *ngFor=\"let g of myGroups\">\r\n            <div class=\"card p-1 m-1\">\r\n                <div class=\"card-header\">\r\n                    <strong>Group Name</strong>: {{g.groupName}}\r\n                </div>\r\n                <ul>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <div class=\"wrapper\">\r\n                    <div class=\"btn-group text-center\" role=\"group\" aria-label=\"Basic group\">\r\n                        <button class=\"btn btn-outline-warning\" (click)=\"manageGroup(g)\">Manage</button>\r\n                        <button class=\"btn btn-danger\" (click)=\"leaveGroup(g)\">Leave</button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<hr/>\r\n\r\n<div *ngIf=\"loadedGroups\">\r\n    <h4><strong>Other Groups:</strong></h4>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6\" *ngFor=\"let g of otherGroups\">\r\n            <div class=\"card p-1 m-1\">\r\n                <div class=\"card-header\">\r\n                    <strong>Group Name</strong>: {{g.groupName}}\r\n                </div>\r\n                <ul>\r\n                    <li><strong>Type</strong>: {{GroupType[g.type]}}</li>\r\n                    <br />\r\n                    <strong>Members:</strong>\r\n                    <ul *ngFor=\"let member of g.members\">\r\n                        <li>{{member.member.userName}}</li>\r\n                    </ul>\r\n                </ul>\r\n                <div class=\"wrapper\">\r\n                    <button class=\"btn ctrbtn btn-success\" [disabled]=\"!canJoin(g)\" (click)=\"joinGroup(g)\">Join Group</button>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n<div>\r\n\r\n"
 
 /***/ }),
 
@@ -40,7 +51,7 @@ module.exports = "<div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ e
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n        <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\n        <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\n            <div class=\"form-group\">\n                <label for=\"username\">Username</label>\n                <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required/>\n                <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Username is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"password\">Password</label>\n                <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\"/>\n                <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">PAssword is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" [disabled]=\"theForm.invalid\"/>\n                <a routerLink=\"/\" class=\"btn btn-default\">Cancel</a>\n            </div>\n        </form>\n    </div>\n</div>"
+module.exports = "<div class=\"row\">\n    <div class=\"col-md-4 col-md-offset-4\">\n        <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{ errorMessage }}</div>\n        <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\n            <div class=\"form-group\">\n                <label for=\"username\">Username</label>\n                <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required/>\n                <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Username is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"password\">Password</label>\n                <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\"/>\n                <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">Password is required!</div>\n            </div>\n            <div class=\"form-group\">\n                <input type=\"submit\" class=\"btn btn-success\" value=\"Login\" [disabled]=\"theForm.invalid\"/>\n                <a routerLink=\"/\" class=\"btn btn-default\">Cancel</a>\n            </div>\n        </form>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -62,7 +73,7 @@ module.exports = "<router-outlet></router-outlet>"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"book-info col-md-12\" *ngFor=\"let m of meetings\">\r\n        <div class=\"card bg-transparent p-1 m-1\">\r\n            <div class=\"row\">\r\n                <div class=\"book-info col-md-5\">\r\n                    <div class=\"card bg-light p-1 m-1\">\r\n                        <img src=\"/img/{{m.book.bookId}}.jpg\" class=\"img-fluid\" [alt]=\"m.book.title\" />\r\n                        <div class=\"book-name\">{{ m.book.title }}</div>\r\n                        <ul class=\"book-props\">\r\n                            <li><strong>Author</strong>: {{m.book.author}}</li>\r\n                            <li><strong>Title</strong>: {{m.book.title}}</li>\r\n                            <li><strong>Genre</strong>: {{m.book.genre}}</li>\r\n                        </ul>\r\n                        <button id=\"editButton\" class=\"btn btn-success\" (click)=\"editMeeting(m)\">Edit</button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"book-info col-md-7\">\r\n                    <ul class=\"book-props\">\r\n                        <li><strong>Address</strong>: {{m.address}}</li>\r\n                        <li><strong>Time</strong>: {{m.time}}</li>\r\n                        <div *ngFor=\"let attendee of m.attendees\">\r\n                            <div *ngIf=\"attendee.isHost\"><strong>Host</strong>: {{ attendee.member.userName }}</div>\r\n                        </div>\r\n                        <strong>Attendees:</strong>\r\n                        <ul *ngFor=\"let attendee of m.attendees\">\r\n                            <li>{{attendee.member.userName}}</li>\r\n                        </ul>\r\n                    </ul>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"book-info col-md-12\" *ngFor=\"let m of meetings\">\r\n        <div class=\"card p-1 m-1\">\r\n            <div class=\"row\">\r\n                <div class=\"book-info col-md-5\">\r\n                    <div class=\"card p-1 m-1\">\r\n                        <img src=\"/img/{{m.book.bookId}}.jpg\" class=\"img-fluid\" [alt]=\"m.book.title\" />\r\n                        <div class=\"book-name\">{{ m.book.title }}</div>\r\n                        <ul class=\"book-props\">\r\n                            <li><strong>Author</strong>: {{m.book.author}}</li>\r\n                            <li><strong>Title</strong>: {{m.book.title}}</li>\r\n                            <li><strong>Genre</strong>: {{m.book.genre}}</li>\r\n                        </ul>\r\n                        <button id=\"editButton\" class=\"btn btn-success\" (click)=\"editMeeting(m)\">Edit</button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"book-info col-md-7\">\r\n                    <ul class=\"book-props\">\r\n                        <li><strong>Address</strong>: {{m.address}}</li>\r\n                        <li><strong>Time</strong>: {{m.time}}</li>\r\n                        <div *ngFor=\"let attendee of m.attendees\">\r\n                            <div *ngIf=\"attendee.isHost\"><strong>Host</strong>: {{ attendee.member.userName }}</div>\r\n                        </div>\r\n                        <strong>Attendees:</strong>\r\n                        <ul *ngFor=\"let attendee of m.attendees\">\r\n                            <li>{{attendee.member.userName}}</li>\r\n                        </ul>\r\n                    </ul>\r\n                </div>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -73,7 +84,7 @@ module.exports = "<div class=\"row\">\r\n    \r\n    <div class=\"book-info col-
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card bg-light p-1 m-1\">\r\n    <div *ngIf=\"data.editedMeeting; then thenBlock else elseBlock\"></div>\r\n    <ng-template #thenBlock>\r\n        <h3>Edit Meeting</h3>\r\n        <div><strong>Book</strong>: {{ data.editedMeeting.book.title }}</div>\r\n        <div><strong>Meeting time</strong>: {{ data.editedMeeting.time }}</div>\r\n        <div><strong>Address</strong>: {{ data.editedMeeting.address }}</div>\r\n\r\n        <strong>Host: </strong>\r\n        <select *ngFor=\"let attendee of data.editedMeeting.attendees\">\r\n            <div *ngIf=\"attendee.isHost; then thenBlock else elseBlock\"></div>\r\n            <ng-template #thenBlock>\r\n                <option value=\"{{ attendee.member.userName }}\" selected=\"selected\">{{ attendee.member.userName }}</option>\r\n            </ng-template>\r\n            <ng-template #elseBlock>\r\n                <option value=\"{{ attendee.member.userName }}\">{{ attendee.member.userName }}</option>\r\n            </ng-template>\r\n        </select>\r\n\r\n        <strong>Attendees:</strong>\r\n        <ul *ngFor=\"let attendee of data.editedMeeting.attendees\">\r\n            <li>{{attendee.member.userName}}</li>\r\n        </ul>\r\n        <button id=\"editButton\" class=\"btn btn-success\" (click)=\"saveMeeting()\">Save</button>\r\n    </ng-template>\r\n    <ng-template #elseBlock>\r\n        <img src=\"https://knowledgequest.aasl.org/wp-content/uploads/2015/01/books.png\"/>\r\n        <a routerLink=\"/admin/createmeeting\" class=\"btn btn-success\">Create new meeting</a>\r\n    </ng-template>\r\n</div>"
+module.exports = "<div class=\"card p-1 m-1\">\r\n    <div *ngIf=\"data.editedMeeting; then thenBlock else elseBlock\"></div>\r\n    <ng-template #thenBlock>\r\n        <h3>Edit Meeting</h3>\r\n        <div><strong>Book</strong>: {{ data.editedMeeting.book.title }}</div>\r\n        <div><strong>Meeting time</strong>: {{ data.editedMeeting.time }}</div>\r\n        <div><strong>Address</strong>: {{ data.editedMeeting.address }}</div>\r\n\r\n        <strong>Host: </strong>\r\n        <select *ngFor=\"let attendee of data.editedMeeting.attendees\">\r\n            <div *ngIf=\"attendee.isHost; then thenBlock else elseBlock\"></div>\r\n            <ng-template #thenBlock>\r\n                <option value=\"{{ attendee.member.userName }}\" selected=\"selected\">{{ attendee.member.userName }}</option>\r\n            </ng-template>\r\n            <ng-template #elseBlock>\r\n                <option value=\"{{ attendee.member.userName }}\">{{ attendee.member.userName }}</option>\r\n            </ng-template>\r\n        </select>\r\n\r\n        <strong>Attendees:</strong>\r\n        <ul *ngFor=\"let attendee of data.editedMeeting.attendees\">\r\n            <li>{{attendee.member.userName}}</li>\r\n        </ul>\r\n        <button id=\"editButton\" class=\"btn btn-success\" (click)=\"saveMeeting()\">Save</button>\r\n    </ng-template>\r\n    <ng-template #elseBlock>\r\n        <img src=\"https://knowledgequest.aasl.org/wp-content/uploads/2015/01/books.png\"/>\r\n        <a routerLink=\"/admin/createmeeting\" class=\"btn btn-success\">Create new meeting</a>\r\n    </ng-template>\r\n</div>"
 
 /***/ }),
 
@@ -223,13 +234,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./app/app.component.ts");
 /* harmony import */ var _meetings_meetingList_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./meetings/meetingList.component */ "./app/meetings/meetingList.component.ts");
 /* harmony import */ var _meetings_meetings_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./meetings/meetings.component */ "./app/meetings/meetings.component.ts");
-/* harmony import */ var _groups_groups_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/groups.component */ "./app/groups/groups.component.ts");
-/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./login/login.component */ "./app/login/login.component.ts");
-/* harmony import */ var _meetings_meetingManager_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./meetings/meetingManager.component */ "./app/meetings/meetingManager.component.ts");
-/* harmony import */ var _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./admin/createMeeting.component */ "./app/admin/createMeeting.component.ts");
-/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./shared/dataService */ "./app/shared/dataService.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ "../node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ "../node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _groups_createGroup_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./groups/createGroup.component */ "./app/groups/createGroup.component.ts");
+/* harmony import */ var _groups_groups_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./groups/groups.component */ "./app/groups/groups.component.ts");
+/* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./login/login.component */ "./app/login/login.component.ts");
+/* harmony import */ var _meetings_meetingManager_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./meetings/meetingManager.component */ "./app/meetings/meetingManager.component.ts");
+/* harmony import */ var _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./admin/createMeeting.component */ "./app/admin/createMeeting.component.ts");
+/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shared/dataService */ "./app/shared/dataService.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ "../node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ "../node_modules/@angular/forms/fesm5/forms.js");
+
 
 
 
@@ -252,7 +265,7 @@ var meetingRoutes = [
     },
     {
         path: "admin/createmeeting",
-        component: _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_10__["CreateMeeting"]
+        component: _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_11__["CreateMeeting"]
     }
 ];
 var MeetingsModule = /** @class */ (function () {
@@ -263,22 +276,22 @@ var MeetingsModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["MeetingsComponent"],
                 _meetings_meetingList_component__WEBPACK_IMPORTED_MODULE_5__["MeetingList"],
-                _meetings_meetingManager_component__WEBPACK_IMPORTED_MODULE_9__["MeetingManager"],
+                _meetings_meetingManager_component__WEBPACK_IMPORTED_MODULE_10__["MeetingManager"],
                 _meetings_meetings_component__WEBPACK_IMPORTED_MODULE_6__["Meetings"],
-                _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_10__["CreateMeeting"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"]
+                _admin_createMeeting_component__WEBPACK_IMPORTED_MODULE_11__["CreateMeeting"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_9__["Login"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_13__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_12__["RouterModule"].forRoot(meetingRoutes, {
+                _angular_router__WEBPACK_IMPORTED_MODULE_13__["RouterModule"].forRoot(meetingRoutes, {
                     useHash: true,
                     enableTracing: false // for debugging
                 })
             ],
             providers: [
-                _shared_dataService__WEBPACK_IMPORTED_MODULE_11__["DataService"]
+                _shared_dataService__WEBPACK_IMPORTED_MODULE_12__["DataService"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["MeetingsComponent"]]
         })
@@ -289,11 +302,15 @@ var MeetingsModule = /** @class */ (function () {
 var groupRoutes = [
     {
         path: "",
-        component: _groups_groups_component__WEBPACK_IMPORTED_MODULE_7__["Groups"]
+        component: _groups_groups_component__WEBPACK_IMPORTED_MODULE_8__["Groups"]
     },
     {
         path: "login",
-        component: _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"]
+        component: _login_login_component__WEBPACK_IMPORTED_MODULE_9__["Login"]
+    },
+    {
+        path: "createGroup",
+        component: _groups_createGroup_component__WEBPACK_IMPORTED_MODULE_7__["CreateGroup"]
     }
 ];
 var GroupsModule = /** @class */ (function () {
@@ -302,26 +319,111 @@ var GroupsModule = /** @class */ (function () {
     GroupsModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
+                _groups_createGroup_component__WEBPACK_IMPORTED_MODULE_7__["CreateGroup"],
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["GroupsComponent"],
-                _groups_groups_component__WEBPACK_IMPORTED_MODULE_7__["Groups"],
-                _login_login_component__WEBPACK_IMPORTED_MODULE_8__["Login"],
+                _groups_groups_component__WEBPACK_IMPORTED_MODULE_8__["Groups"],
+                _login_login_component__WEBPACK_IMPORTED_MODULE_9__["Login"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_13__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_14__["FormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                _angular_router__WEBPACK_IMPORTED_MODULE_12__["RouterModule"].forRoot(groupRoutes, {
+                _angular_router__WEBPACK_IMPORTED_MODULE_13__["RouterModule"].forRoot(groupRoutes, {
                     useHash: true,
                     enableTracing: false // for debugging
                 })
             ],
             providers: [
-                _shared_dataService__WEBPACK_IMPORTED_MODULE_11__["DataService"]
+                _shared_dataService__WEBPACK_IMPORTED_MODULE_12__["DataService"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["GroupsComponent"]]
         })
     ], GroupsModule);
     return GroupsModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./app/groups/createGroup.component.ts":
+/*!*********************************************!*\
+  !*** ./app/groups/createGroup.component.ts ***!
+  \*********************************************/
+/*! exports provided: CreateGroup */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateGroup", function() { return CreateGroup; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/dataService */ "./app/shared/dataService.ts");
+/* harmony import */ var _shared_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/group */ "./app/shared/group.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "../node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+
+
+var CreateGroup = /** @class */ (function () {
+    function CreateGroup(data, router) {
+        this.data = data;
+        this.router = router;
+        this.errorMessage = "";
+        this.areMembersDisabled = true;
+        this.group = {
+            creationTime: new Date(),
+            groupName: "",
+            members: this.data.username,
+            type: "Open"
+        };
+        this.GroupType = _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"];
+        this.groupTypes = [
+            { type: "Open", description: "Anyone can join" },
+            { type: "ByApplication", description: "Admins will receive an aplication via email" },
+            { type: "Closed", description: "Only admins can add members" }
+        ];
+    }
+    CreateGroup.prototype.ngOnInit = function () {
+    };
+    CreateGroup.prototype.onCreate = function () {
+        var _this = this;
+        if (this.data.loginRequired) {
+            this.router.navigate(["login"]);
+        }
+        else {
+            var newGroup = new _shared_group__WEBPACK_IMPORTED_MODULE_3__["Group"]();
+            newGroup.groupId = 0;
+            newGroup.creationTime = new Date();
+            newGroup.meetings = new Array();
+            newGroup.members = new Array();
+            newGroup.type = _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"][this.group.type];
+            newGroup.groupName = this.group.groupName;
+            this.data.createGroup(newGroup)
+                .subscribe(function (success) {
+                if (success) {
+                    _this.data.loadGroups();
+                    _this.router.navigate(['/'])
+                        .then(function () {
+                        window.location.reload();
+                    });
+                }
+            }, function (err) { return _this.errorMessage = "Failed to create group."; });
+        }
+    };
+    CreateGroup.prototype.getRandomInt = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    CreateGroup = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: "createGroup",
+            template: __webpack_require__(/*! raw-loader!./createGroup.component.html */ "../node_modules/raw-loader/index.js!./app/groups/createGroup.component.html")
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_dataService__WEBPACK_IMPORTED_MODULE_2__["DataService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
+    ], CreateGroup);
+    return CreateGroup;
 }());
 
 
@@ -353,10 +455,13 @@ var Groups = /** @class */ (function () {
     function Groups(data, router) {
         this.data = data;
         this.router = router;
+        this.myGroups = [];
+        this.otherGroups = [];
         this.errorMessage = "";
+        this.isSignedIn = false;
+        this.isPartOfAnyGroup = false;
         this.loadedUser = false;
         this.loadedGroups = false;
-        this.groups = [];
         this.GroupType = _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"];
     }
     Groups.prototype.ngOnInit = function () {
@@ -364,21 +469,28 @@ var Groups = /** @class */ (function () {
         this.data.loadCurrentUser().subscribe(function (success) {
             if (success) {
                 _this.loadedUser = true;
+                if (_this.data.currentUser) {
+                    _this.isSignedIn = true;
+                }
+                _this.data.loadGroups()
+                    .subscribe(function (success) {
+                    if (success) {
+                        _this.data.groups.forEach(function (value, key) {
+                            if (_this.isMember(value)) {
+                                _this.myGroups.push(value);
+                            }
+                            else {
+                                _this.otherGroups.push(value);
+                            }
+                        });
+                        if (_this.isSignedIn && _this.myGroups.length !== 0) {
+                            _this.isPartOfAnyGroup = true;
+                        }
+                        _this.loadedGroups = true;
+                    }
+                });
             }
         });
-        this.data.loadGroups()
-            .subscribe(function (success) {
-            if (success) {
-                _this.groups = _this.data.groups;
-                _this.loadedGroups = true;
-            }
-        });
-    };
-    Groups.prototype.isUserSignedIn = function () {
-        if (this.data.currentUser) {
-            return true;
-        }
-        return false;
     };
     Groups.prototype.joinGroup = function (group) {
         var _this = this;
@@ -411,37 +523,62 @@ var Groups = /** @class */ (function () {
     };
     Groups.prototype.canJoin = function (group) {
         if (this.isMember(group)) {
-            alert("Already in group");
+            return false;
         }
         else if (group.type === _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"].Closed) {
-            alert("Group is closed.");
+            return false;
         }
         else if (group.type === _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"].ByApplication) {
-            alert("Need to send application request.");
+            return false;
         }
         else if (group.type === _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupType"].Open) {
             return true;
         }
         return false;
     };
-    Groups.prototype.leave = function (group) {
-        if (this.isMember(group)) {
-            alert("Leaving group! Bye Felicia");
+    Groups.prototype.leaveGroup = function (group) {
+        var _this = this;
+        if (this.data.loginRequired) {
+            this.router.navigate(["login"]);
+        }
+        else if (this.isMember(group)) {
+            var groupMember = new _shared_group__WEBPACK_IMPORTED_MODULE_3__["GroupMember"]();
+            groupMember.memberId = this.data.currentUser.id;
+            groupMember.member = this.data.currentUser;
+            groupMember.group = group;
+            groupMember.groupId = group.groupId;
+            this.data.leaveGroup(groupMember)
+                .subscribe(function (success) {
+                if (success) {
+                    _this.data.loadGroups();
+                    _this.router.navigate(['/'])
+                        .then(function () {
+                        window.location.reload();
+                    });
+                }
+            }, function (err) { return _this.errorMessage = "Failed to leave group."; });
         }
     };
     Groups.prototype.isMember = function (group) {
         var _this = this;
-        if (!this.loadedGroups || !this.loadedUser) {
+        if (!this.loadedUser) {
             return false;
         }
         var isMember = false;
         group.members.forEach(function (value, key) {
-            if (_this.data.currentUser &&
-                value.memberId === _this.data.currentUser.id) {
+            if (value.memberId === _this.data.currentUser.id) {
                 isMember = true;
             }
         });
         return isMember;
+    };
+    Groups.prototype.createGroup = function () {
+        if (this.data.loginRequired) {
+            this.router.navigate(["login"]);
+        }
+        else {
+            this.router.navigate(["createGroup"]);
+        }
     };
     Groups = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -707,6 +844,7 @@ var DataService = /** @class */ (function () {
             .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
             _this.token = data.token;
             _this.tokenExpiration = data.expiration;
+            _this.username = creds.username;
             return true;
         })));
     };
@@ -721,6 +859,20 @@ var DataService = /** @class */ (function () {
         return this.http.post("/api/groupmembers", groupMember, {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]().set("Authorization", "Bearer " + this.token)
         })
+            .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            return true;
+        })));
+    };
+    DataService.prototype.leaveGroup = function (groupMember) {
+        return this.http.post("/api/groupmembers/remove", groupMember, {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]().set("Authorization", "Bearer " + this.token)
+        })
+            .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
+            return true;
+        })));
+    };
+    DataService.prototype.createGroup = function (group) {
+        return this.http.post("/api/groups", group)
             .pipe((Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (data) {
             return true;
         })));

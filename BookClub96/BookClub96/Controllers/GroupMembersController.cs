@@ -83,5 +83,49 @@ namespace BookClub96.Controllers
 
             return BadRequest("Failed to save group membership changes.");
         }
+
+        [HttpPost]
+        [Route("remove")]
+        public IActionResult Remove([FromBody] GroupMemberViewModel groupMemberViewModel)
+        {
+            try
+            {
+                var group = _repository.GetGroupById(groupMemberViewModel.GroupId);
+                if (group == null)
+                {
+                    return BadRequest($"Group does not exist. [id={groupMemberViewModel.GroupId}]");
+                }
+
+                var user = _repository.GetUser(groupMemberViewModel.Member.UserName);
+                if (user == null)
+                {
+                    return BadRequest($"User not found. [user={groupMemberViewModel.Member.UserName}]");
+                }
+
+                foreach (var member in group.Members)
+                {
+                    if (member.MemberId.Equals(user.Id))
+                    {
+                        group.Members.Remove(member);
+                        user.Memberships.Remove(member);
+
+                        if (_repository.SaveAll())
+                        {
+                            return Ok();
+                        }
+
+                        return BadRequest("Failed to save group membership changes.");
+                    }
+                }
+
+                return BadRequest("Member does not belong to group.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to save group membership changes. [ex={ex}]");
+
+                throw;
+            }
+        }
     }
 }

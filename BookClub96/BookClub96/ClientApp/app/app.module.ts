@@ -6,6 +6,7 @@ import { MeetingsComponent } from './app.component';
 import { GroupsComponent } from './app.component';
 import { MeetingList } from './meetings/meetingList.component'
 import { Meetings } from './meetings/meetings.component'
+import { CreateGroup } from './groups/createGroup.component'
 import { Groups } from './groups/groups.component'
 import { Login } from './login/login.component'
 import { MeetingManager } from './meetings/meetingManager.component'
@@ -59,10 +60,15 @@ let groupRoutes = [
     {
         path: "login",
         component: Login
+    },
+    {
+        path: "createGroup",
+        component: CreateGroup
     }];
 
 @NgModule({
     declarations: [
+        CreateGroup,
         GroupsComponent,
         Groups,
         Login,

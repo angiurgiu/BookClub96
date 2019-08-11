@@ -9,6 +9,8 @@ var Groups = /** @class */ (function () {
         this.data = data;
         this.router = router;
         this.errorMessage = "";
+        this.isSignedIn = false;
+        this.isPartOfAnyGroup = false;
         this.loadedUser = false;
         this.loadedGroups = false;
         this.groups = [];
@@ -19,6 +21,12 @@ var Groups = /** @class */ (function () {
         this.data.loadCurrentUser().subscribe(function (success) {
             if (success) {
                 _this.loadedUser = true;
+                if (_this.data.currentUser) {
+                    _this.isSignedIn = true;
+                }
+                if (_this.isMemberOfAnyGroup()) {
+                    _this.isPartOfAnyGroup = true;
+                }
             }
         });
         this.data.loadGroups()
@@ -26,14 +34,11 @@ var Groups = /** @class */ (function () {
             if (success) {
                 _this.groups = _this.data.groups;
                 _this.loadedGroups = true;
+                if (_this.isMemberOfAnyGroup()) {
+                    _this.isPartOfAnyGroup = true;
+                }
             }
         });
-    };
-    Groups.prototype.isUserSignedIn = function () {
-        if (this.data.currentUser) {
-            return true;
-        }
-        return false;
     };
     Groups.prototype.joinGroup = function (group) {
         var _this = this;
@@ -79,9 +84,39 @@ var Groups = /** @class */ (function () {
         }
         return false;
     };
-    Groups.prototype.leave = function (group) {
-        if (this.isMember(group)) {
-            alert("Leaving group! Bye Felicia");
+    Groups.prototype.isMemberOfAnyGroup = function () {
+        if (!this.isSignedIn || !this.loadedGroups) {
+            return false;
+        }
+        for (var _i = 0, _a = this.groups; _i < _a.length; _i++) {
+            var group = _a[_i];
+            if (this.isMember(group)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    Groups.prototype.leaveGroup = function (group) {
+        var _this = this;
+        if (this.data.loginRequired) {
+            this.router.navigate(["login"]);
+        }
+        else if (this.isMember(group)) {
+            var groupMember = new GroupMember();
+            groupMember.memberId = this.data.currentUser.id;
+            groupMember.member = this.data.currentUser;
+            groupMember.group = group;
+            groupMember.groupId = group.groupId;
+            this.data.leaveGroup(groupMember)
+                .subscribe(function (success) {
+                if (success) {
+                    _this.data.loadGroups();
+                    _this.router.navigate(['/'])
+                        .then(function () {
+                        window.location.reload();
+                    });
+                }
+            }, function (err) { return _this.errorMessage = "Failed to leave group."; });
         }
     };
     Groups.prototype.isMember = function (group) {
@@ -97,6 +132,9 @@ var Groups = /** @class */ (function () {
             }
         });
         return isMember;
+    };
+    Groups.prototype.createGroup = function (group) {
+        this.router.navigate(["create-group"]);
     };
     Groups = tslib_1.__decorate([
         Component({

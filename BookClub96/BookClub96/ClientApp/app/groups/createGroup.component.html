@@ -1,0 +1,32 @@
+﻿<div class="row align-items-center">
+    <div class="col">
+        <div class="col-md-4 offset-md-4">
+            <div *ngIf="errorMessage" class="alert alert-warning">{{ errorMessage }}</div>
+            <form (submit)="onCreate()" #theForm="ngForm" novalidate>
+                <div class="form-group">
+                    <label for="groupName">Group name</label>
+                    <input type="text" class="form-control" name="groupName" [(ngModel)]="group.groupName" #groupName="ngModel" required />
+                    <div class="text-danger" *ngIf="groupName.touched && groupName.invalid && groupName.errors.required">Group name is required!</div>
+                </div>
+                <div class="form-group">
+                    <label for="members">Members</label>
+                    <input type="text" [disabled]="areMembersDisabled" class="form-control" name="members" [(ngModel)]="group.members" #members="ngModel" required />
+                    <div class="text-danger" disabled="true" *ngIf="members.touched && members.invalid && members.errors.required">Members are required!</div>
+                </div>
+                <div class="form-group">
+                    <label for="type">Group type</label> <br />
+                
+                    <select class="form-control" name="type" [(ngModel)]="group.type" #type="ngModel">
+                        <option value="Open">Open
+                        <option value="ByApplication">ByApplication
+                        <option value="Closed">Closed
+                    </select> <br />
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Create" [disabled]="theForm.invalid" />
+                    <a routerLink="/" class="btn btn-default">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
